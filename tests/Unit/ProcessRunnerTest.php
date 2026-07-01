@@ -39,7 +39,7 @@ final class ProcessRunnerTest extends TestCase
         $runner = new ProcessRunner();
 
         $this->expectException(EngineException::class);
-        $this->expectExceptionMessage("Process exited with code");
+        $this->expectExceptionMessageIsOrContains("Process exited with code");
         // We run a command that outputs to stderr and exits with non-zero
         // php -r 'fwrite(STDERR, "error details"); exit(5);'
         $runner->run(['php', '-r', 'fwrite(STDERR, "error details"); exit(5);']);
@@ -69,7 +69,7 @@ final class ProcessRunnerTest extends TestCase
         $runner = new ProcessRunner(1);
 
         $this->expectException(EngineException::class);
-        $this->expectExceptionMessage("Process timed out");
+        $this->expectExceptionMessageIsOrContains("Process timed out");
 
         // Run php sleep 3 seconds
         $runner->run(['php', '-r', 'sleep(3);']);

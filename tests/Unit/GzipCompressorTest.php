@@ -68,7 +68,7 @@ final class GzipCompressorTest extends TestCase
         $targetFile = "{$this->tempDir}/out.gz";
 
         $this->expectException(BackupException::class);
-        $this->expectExceptionMessage("cannot open source file");
+        $this->expectExceptionMessageIsOrContains("cannot open source file");
 
         $this->compressor->compress($missingFile, $targetFile);
     }
@@ -82,7 +82,7 @@ final class GzipCompressorTest extends TestCase
         \file_put_contents($invalidGzip, "Not a gzip file");
 
         $this->expectException(BackupException::class);
-        $this->expectExceptionMessage("does not appear to be a valid gzip file");
+        $this->expectExceptionMessageIsOrContains("does not appear to be a valid gzip file");
 
         $this->compressor->decompress($invalidGzip, $targetFile);
     }

@@ -81,9 +81,15 @@ final class RestoreRunnerTest extends TestCase
                     \file_put_contents($localPath, $this->backupContent);
                 }
             }
-            public function upload(string $localPath, string $remoteKey, array $metadata = []): string { return ''; }
+            public function upload(string $localPath, string $remoteKey, array $metadata = []): string
+            {
+                return '';
+            }
             public function delete(string $remoteKey): void {}
-            public function list(string $prefix = ''): array { return []; }
+            public function list(string $prefix = ''): array
+            {
+                return [];
+            }
         };
 
         $compressor = $this->createStub(CompressorInterface::class);
@@ -98,6 +104,7 @@ final class RestoreRunnerTest extends TestCase
         $runner->run($options);
 
         $this->assertNotNull($restoredOptions);
+        /** @var RestoreOptions $restoredOptions */
         $this->assertSame('mydb', $restoredOptions->database);
         // Verify source path was set to a local file, and it is cleaned up afterwards
         $this->assertFileDoesNotExist($restoredOptions->sourcePath);
@@ -133,9 +140,15 @@ final class RestoreRunnerTest extends TestCase
                     \file_put_contents($localPath, $this->backupContent);
                 }
             }
-            public function upload(string $localPath, string $remoteKey, array $metadata = []): string { return ''; }
+            public function upload(string $localPath, string $remoteKey, array $metadata = []): string
+            {
+                return '';
+            }
             public function delete(string $remoteKey): void {}
-            public function list(string $prefix = ''): array { return []; }
+            public function list(string $prefix = ''): array
+            {
+                return [];
+            }
         };
 
         $compressor = $this->createStub(CompressorInterface::class);
@@ -148,7 +161,7 @@ final class RestoreRunnerTest extends TestCase
         );
 
         $this->expectException(BackupException::class);
-        $this->expectExceptionMessage('Checksum verification failed');
+        $this->expectExceptionMessageIsOrContains('Checksum verification failed');
 
         $runner->run($options);
     }
@@ -191,9 +204,15 @@ final class RestoreRunnerTest extends TestCase
                     \file_put_contents($localPath, $this->backupContent);
                 }
             }
-            public function upload(string $localPath, string $remoteKey, array $metadata = []): string { return ''; }
+            public function upload(string $localPath, string $remoteKey, array $metadata = []): string
+            {
+                return '';
+            }
             public function delete(string $remoteKey): void {}
-            public function list(string $prefix = ''): array { return []; }
+            public function list(string $prefix = ''): array
+            {
+                return [];
+            }
         };
 
         $compressor = new class implements CompressorInterface {
@@ -207,7 +226,10 @@ final class RestoreRunnerTest extends TestCase
                 $this->decompressTarget = $targetPath;
                 \file_put_contents($targetPath, 'decompressed content');
             }
-            public function extension(): string { return 'gz'; }
+            public function extension(): string
+            {
+                return 'gz';
+            }
         };
 
         $runner = new RestoreRunner($registry, $storage, $compressor);
@@ -221,6 +243,7 @@ final class RestoreRunnerTest extends TestCase
         $runner->run($options);
 
         $this->assertNotNull($restoredOptions);
+        /** @var RestoreOptions $restoredOptions */
         $this->assertSame('mydb', $restoredOptions->database);
         // Verify source path was cleaned up
         $this->assertFileDoesNotExist($restoredOptions->sourcePath);

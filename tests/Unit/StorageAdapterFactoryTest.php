@@ -19,7 +19,7 @@ final class StorageAdapterFactoryTest extends TestCase
         ]);
 
         $this->expectException(StorageAdapterNotFoundException::class);
-        $this->expectExceptionMessage('Adapter "non_existent_driver" is not registered.');
+        $this->expectExceptionMessageIsOrContains('Adapter "non_existent_driver" is not registered.');
 
         StorageAdapterFactory::fromConfig($config);
     }
@@ -32,7 +32,7 @@ final class StorageAdapterFactoryTest extends TestCase
         ]);
 
         $this->expectException(StorageAdapterNotFoundException::class);
-        $this->expectExceptionMessage('Adapter "gcs" is not available. Install monkeysbackup/storage-gcs or register a custom adapter.');
+        $this->expectExceptionMessageIsOrContains('Adapter "gcs" is not available. Install monkeysbackup/storage-gcs or register a custom adapter.');
 
         StorageAdapterFactory::fromConfig($config);
     }
@@ -45,7 +45,7 @@ final class StorageAdapterFactoryTest extends TestCase
         ]);
 
         $this->expectException(StorageAdapterNotFoundException::class);
-        $this->expectExceptionMessage('Adapter "s3" is not available. Install monkeysbackup/storage-s3 or register a custom adapter.');
+        $this->expectExceptionMessageIsOrContains('Adapter "s3" is not available. Install monkeysbackup/storage-s3 or register a custom adapter.');
 
         StorageAdapterFactory::fromConfig($config);
     }
@@ -99,13 +99,9 @@ class DummyStorageAdapter implements StorageAdapterInterface
         return 'uri://' . $remoteKey;
     }
 
-    public function download(string $remoteKey, string $localPath): void
-    {
-    }
+    public function download(string $remoteKey, string $localPath): void {}
 
-    public function delete(string $remoteKey): void
-    {
-    }
+    public function delete(string $remoteKey): void {}
 
     public function list(string $prefix = ''): array
     {
