@@ -3,12 +3,12 @@
 This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0).
 
 > [!NOTE]
-> This is a greenfield project. Currently, 11 out of 16 tasks are completed.
+> This is a greenfield project. Currently, 12 out of 16 tasks are completed.
 
 ## 📊 Progress Summary
 
-- **Total Progress:** 69% (11/16 Tasks)
-- **Estimated Effort Remaining:** ~3 developer-days
+- **Total Progress:** 75% (12/16 Tasks)
+- **Estimated Effort Remaining:** ~2 developer-days
 
 | Category | Tasks Completed | Progress |
 | :--- | :---: | :---: |
@@ -16,7 +16,7 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
 | **Engines** | 4 / 4 | 100% |
 | **Compression & Process** | 1 / 1 | 100% |
 | **Runners & Local Storage** | 2 / 2 | 100% |
-| **Adapter Packages** | 1 / 2 | 50% |
+| **Adapter Packages** | 2 / 2 | 100% |
 | **CLI & Release** | 0 / 4 | 0% |
 
 ---
@@ -131,13 +131,15 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
   - **Depends on:** `[MB-03]`
   - **Status:** ✅ Completed
 
-- [ ] **`[MB-12]` Package `storage-s3`**
+- [x] **`[MB-12]` Package `storage-s3`**
   - **Description:** Optional sub-package for S3 storage driver.
   - **Acceptance Criteria:**
-    - [ ] Integrates with AWS S3 SDK.
-    - [ ] Supports custom endpoint for MinIO compatibility.
+    - [x] Integrates with AWS S3 SDK (`aws/aws-sdk-php`).
+    - [x] Supports custom endpoint for MinIO compatibility.
+    - [x] Integration tested against MinIO via Docker (`docker-compose.testing.yml`).
+    - [x] Run with: `composer test:s3` (requires container up).
   - **Depends on:** `[MB-03]`
-  - **Status:** ⏳ Pending
+  - **Status:** ✅ Completed
 
 ---
 
