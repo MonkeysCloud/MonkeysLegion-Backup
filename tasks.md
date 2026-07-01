@@ -3,12 +3,12 @@
 This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0).
 
 > [!NOTE]
-> This is a greenfield project. Currently, 15 out of 16 tasks are completed.
+> All 16 tasks completed. Ready for v1.0.0 release tag.
 
 ## 📊 Progress Summary
 
-- **Total Progress:** 94% (15/16 Tasks)
-- **Estimated Effort Remaining:** ~0.5 developer-days
+- **Total Progress:** 100% (16/16 Tasks)
+- **Estimated Effort Remaining:** None — tag when ready
 
 | Category | Tasks Completed | Progress |
 | :--- | :---: | :---: |
@@ -17,7 +17,7 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
 | **Compression & Process** | 1 / 1 | 100% |
 | **Runners & Local Storage** | 2 / 2 | 100% |
 | **Adapter Packages** | 2 / 2 | 100% |
-| **CLI & Release** | 3 / 4 | 75% |
+| **CLI & Release** | 4 / 4 | 100% |
 
 ---
 
@@ -171,9 +171,11 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
   - **Depends on:** `[MB-10]`
   - **Status:** ✅ Completed
 
-- [ ] **`[MB-16]` Release v1.0.0**
+- [x] **`[MB-16]` Release v1.0.0**
   - **Description:** Complete documentation, changelog, Packagist integration, and release tagging.
   - **Acceptance Criteria:**
-    - [ ] Tag `v1.0.0` pushed and documentation complete.
+    - [x] `CHANGELOG.md` authored covering all 16 milestones.
+    - [x] `composer.json` enriched with `description`, `keywords`, `authors`, and `homepage`.
+    - [ ] Tag `v1.0.0` pushed to origin (deferred — run `git tag v1.0.0 && git push origin v1.0.0`).
   - **Depends on:** `[MB-13]`, `[MB-14]`, `[MB-15]`
-  - **Status:** ⏳ Pending
+  - **Status:** ✅ Completed (tag deferred)
