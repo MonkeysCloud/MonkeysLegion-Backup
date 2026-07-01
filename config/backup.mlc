@@ -1,0 +1,32 @@
+default_engine = env(BACKUP_DEFAULT_ENGINE, 'mysql')
+default_storage = env(BACKUP_STORAGE_DRIVER, 'local')
+
+storage {
+    local {
+        driver = "local"
+        root   = env(BACKUP_STORAGE_ROOT, 'var/backups')
+    }
+
+    s3 {
+        driver         = "s3"
+        bucket         = env(BACKUP_STORAGE_BUCKET, '')
+        region         = env(BACKUP_STORAGE_REGION, 'us-east-1')
+        key            = env(BACKUP_STORAGE_KEY, '')
+        secret         = env(BACKUP_STORAGE_SECRET, '')
+        endpoint       = env(BACKUP_STORAGE_ENDPOINT, null)
+        use_path_style = env(BACKUP_STORAGE_PATH_STYLE, false)
+    }
+
+    gcs {
+        driver      = "gcs"
+        bucket      = env(BACKUP_STORAGE_BUCKET, '')
+        projectId   = env(BACKUP_STORAGE_PROJECT_ID, '')
+        keyFilePath = env(BACKUP_STORAGE_KEY_FILE, null)
+        apiEndpoint = env(BACKUP_STORAGE_ENDPOINT, null)
+    }
+}
+
+compression {
+    enabled = env(BACKUP_COMPRESSION_ENABLED, true)
+    driver  = "gzip"
+}

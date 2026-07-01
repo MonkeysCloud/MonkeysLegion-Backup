@@ -3,12 +3,12 @@
 This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0).
 
 > [!NOTE]
-> This is a greenfield project. Currently, 12 out of 16 tasks are completed.
+> This is a greenfield project. Currently, 14 out of 16 tasks are completed.
 
 ## 📊 Progress Summary
 
-- **Total Progress:** 75% (12/16 Tasks)
-- **Estimated Effort Remaining:** ~2 developer-days
+- **Total Progress:** 87% (14/16 Tasks)
+- **Estimated Effort Remaining:** ~0.5 developer-days
 
 | Category | Tasks Completed | Progress |
 | :--- | :---: | :---: |
@@ -17,7 +17,7 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
 | **Compression & Process** | 1 / 1 | 100% |
 | **Runners & Local Storage** | 2 / 2 | 100% |
 | **Adapter Packages** | 2 / 2 | 100% |
-| **CLI & Release** | 0 / 4 | 0% |
+| **CLI & Release** | 2 / 4 | 50% |
 
 ---
 
@@ -145,21 +145,21 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
 
 ### 6. CLI & Quality Assurance
 
-- [ ] **`[MB-13]` CLI `monkeys-backup`**
+- [x] **`[MB-13]` CLI `monkeys-backup`**
   - **Description:** Pure PHP argv command line interface (no external CLI framework dependency).
   - **Acceptance Criteria:**
-    - [ ] Commands: `engines`, `dump`, `restore`, `list`.
-    - [ ] Supports `--dry-run`, `--config`, and environment variables.
+    - [x] Commands: `engines`, `dump`, `restore`, `list`.
+    - [x] Supports `--dry-run`, `--config`, and environment variables.
   - **Depends on:** `[MB-10]`
-  - **Status:** ⏳ Pending
+  - **Status:** ✅ Completed
 
-- [ ] **`[MB-14]` Unit test suite**
+- [x] **`[MB-14]` Unit test suite**
   - **Description:** Setup and complete coverage for engines, factory, compressor, and runners using mocks.
   - **Acceptance Criteria:**
-    - [ ] PHPUnit runs successfully with high coverage.
-    - [ ] PHPStan runs at Level 8 without issues.
+    - [x] PHPUnit runs successfully with high coverage.
+    - [x] PHPStan runs at Level 8 without issues.
   - **Depends on:** `[MB-10]`
-  - **Status:** ⏳ Pending
+  - **Status:** ✅ Completed
 
 - [ ] **`[MB-15]` Integration tests**
   - **Description:** Setup Docker Compose CI to verify real dump & restore operations with live database instances.
