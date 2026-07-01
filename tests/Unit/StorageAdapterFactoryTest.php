@@ -24,17 +24,21 @@ final class StorageAdapterFactoryTest extends TestCase
         StorageAdapterFactory::fromConfig($config);
     }
 
-    public function testThrowsExceptionWhenOptionalAdapterPackageIsMissingForGcs(): void
+    public function testGcsAdapterResolvesWhenClassExists(): void
     {
+        // GcsStorageAdapter is now implemented; the factory must resolve it without
+        // throwing StorageAdapterNotFoundException.
+        // Supplying a credentialsFetcher avoids real GCP auth in this unit test.
         $config = StorageConfig::fromArray([
-            'driver' => 'gcs',
-            'bucket' => 'my-bucket'
+            'driver'             => 'gcs',
+            'bucket'             => 'unit-test-bucket',
+            'project_id'         => 'unit-test-project',
+            'credentialsFetcher' => new \Google\Cloud\Core\AnonymousCredentials(),
         ]);
 
-        $this->expectException(StorageAdapterNotFoundException::class);
-        $this->expectExceptionMessageIsOrContains('Adapter "gcs" is not available. Install monkeysbackup/storage-gcs or register a custom adapter.');
-
-        StorageAdapterFactory::fromConfig($config);
+        $adapter = StorageAdapterFactory::fromConfig($config);
+        $this->assertInstanceOf(StorageAdapterInterface::class, $adapter);
+        $this->assertInstanceOf(\MonkeysLegion\Backup\Storage\GcsStorageAdapter::class, $adapter);
     }
 
     public function testThrowsExceptionWhenOptionalAdapterPackageIsMissingForS3(): void

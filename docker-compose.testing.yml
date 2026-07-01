@@ -1,0 +1,18 @@
+services:
+  fake-gcs:
+    image: fsouza/fake-gcs-server:latest
+    container_name: mb_fake_gcs
+    ports:
+      - "4443:4443"
+    command:
+      - -scheme
+      - http
+      - -port
+      - "4443"
+      - -public-host
+      - "localhost:4443"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:4443/_internal/healthcheck"]
+      interval: 2s
+      timeout: 5s
+      retries: 10
