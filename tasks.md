@@ -3,17 +3,17 @@
 This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0).
 
 > [!NOTE]
-> This is a greenfield project. Currently, 3 out of 16 tasks are completed.
+> This is a greenfield project. Currently, 4 out of 16 tasks are completed.
 
 ## 📊 Progress Summary
 
-- **Total Progress:** 18% (3/16 Tasks)
-- **Estimated Effort Remaining:** ~8 developer-days
+- **Total Progress:** 25% (4/16 Tasks)
+- **Estimated Effort Remaining:** ~7 developer-days
 
 | Category | Tasks Completed | Progress |
 | :--- | :---: | :---: |
 | **Foundation** | 3 / 3 | 100% |
-| **Engines** | 0 / 4 | 0% |
+| **Engines** | 1 / 4 | 25% |
 | **Compression & Process** | 0 / 1 | 0% |
 | **Runners & Local Storage** | 0 / 2 | 0% |
 | **Adapter Packages** | 0 / 2 | 0% |
@@ -52,13 +52,13 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
 
 ### 2. Supported Engines
 
-- [ ] **`[MB-04]` MySQL engine**
+- [x] **`[MB-04]` MySQL engine**
   - **Description:** Implement MySQL engine wrapping `mysqldump` and `mysql` via `ProcessRunner`.
   - **Acceptance Criteria:**
-    - [ ] Supports `--single-transaction`, `--routines`, and `--triggers`.
-    - [ ] Unit tests assert argv array construction without running actual shell commands.
+    - [x] Supports `--single-transaction`, `--routines`, and `--triggers`.
+    - [x] Unit tests assert argv array construction without running actual shell commands.
   - **Depends on:** `[MB-02]`
-  - **Status:** ⏳ Pending
+  - **Status:** ✅ Completed
 
 - [ ] **`[MB-05]` PostgreSQL engine**
   - **Description:** Implement PostgreSQL engine wrapping `pg_dump` and `psql` / `pg_restore`.

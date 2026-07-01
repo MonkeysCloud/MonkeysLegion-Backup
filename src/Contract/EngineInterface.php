@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MonkeysLegion\Backup\Contract;
 
+use MonkeysLegion\Backup\Engine\EngineName;
 use MonkeysLegion\Backup\ValueObject\DumpOptions;
 use MonkeysLegion\Backup\ValueObject\RestoreOptions;
 use MonkeysLegion\Backup\ValueObject\BackupArtifact;
@@ -11,9 +12,9 @@ use MonkeysLegion\Backup\ValueObject\BackupArtifact;
 interface EngineInterface
 {
     /**
-     * Get the name of the database engine (e.g., 'mysql', 'postgres', 'mongodb', etc.).
+     * Get the engine name enum case (e.g. EngineName::Mysql).
      */
-    public function name(): string;
+    public function name(): EngineName;
 
     /**
      * Dump the database using engine-specific configuration and return the local artifact.
