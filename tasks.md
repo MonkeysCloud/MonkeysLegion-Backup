@@ -3,16 +3,16 @@
 This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0).
 
 > [!NOTE]
-> This is a greenfield project. Currently, 2 out of 16 tasks are completed.
+> This is a greenfield project. Currently, 3 out of 16 tasks are completed.
 
 ## 📊 Progress Summary
 
-- **Total Progress:** 12% (2/16 Tasks)
-- **Estimated Effort Remaining:** ~9 developer-days
+- **Total Progress:** 18% (3/16 Tasks)
+- **Estimated Effort Remaining:** ~8 developer-days
 
 | Category | Tasks Completed | Progress |
 | :--- | :---: | :---: |
-| **Foundation** | 2 / 3 | 66% |
+| **Foundation** | 3 / 3 | 100% |
 | **Engines** | 0 / 4 | 0% |
 | **Compression & Process** | 0 / 1 | 0% |
 | **Runners & Local Storage** | 0 / 2 | 0% |
@@ -40,13 +40,13 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
   - **Depends on:** `[MB-01]`
   - **Status:** ✅ Completed
 
-- [ ] **`[MB-03]` StorageAdapterFactory**
+- [x] **`[MB-03]` StorageAdapterFactory**
   - **Description:** Implement factory that resolves `local`, `gcs`, and `s3` adapter classes. Check and throw `StorageAdapterNotFoundException` if optional packages are missing. Support custom register.
   - **Acceptance Criteria:**
-    - [ ] Unit test verifies clear exception when package for `gcs`/`s3` is missing.
-    - [ ] Unit test verifies custom adapter registration.
+    - [x] Unit test verifies clear exception when package for `gcs`/`s3` is missing.
+    - [x] Unit test verifies custom adapter registration.
   - **Depends on:** `[MB-02]`
-  - **Status:** ⏳ Pending
+  - **Status:** ✅ Completed
 
 ---
 
