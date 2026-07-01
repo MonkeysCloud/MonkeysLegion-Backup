@@ -3,17 +3,17 @@
 This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0).
 
 > [!NOTE]
-> This is a greenfield project. Currently, 5 out of 16 tasks are completed.
+> This is a greenfield project. Currently, 6 out of 16 tasks are completed.
 
 ## 📊 Progress Summary
 
-- **Total Progress:** 31% (5/16 Tasks)
-- **Estimated Effort Remaining:** ~6 developer-days
+- **Total Progress:** 38% (6/16 Tasks)
+- **Estimated Effort Remaining:** ~5 developer-days
 
 | Category | Tasks Completed | Progress |
 | :--- | :---: | :---: |
 | **Foundation** | 3 / 3 | 100% |
-| **Engines** | 2 / 4 | 50% |
+| **Engines** | 3 / 4 | 75% |
 | **Compression & Process** | 0 / 1 | 0% |
 | **Runners & Local Storage** | 0 / 2 | 0% |
 | **Adapter Packages** | 0 / 2 | 0% |
@@ -67,12 +67,15 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
   - **Depends on:** `[MB-02]`
   - **Status:** ✅ Completed
 
-- [ ] **`[MB-06]` MongoDB, Redis, SQLite engines**
+- [x] **`[MB-06]` MongoDB, Redis, SQLite engines**
   - **Description:** Implement MongoDB (`mongodump --archive`), Redis (`redis-cli --rdb`), and SQLite (file copy) engines.
   - **Acceptance Criteria:**
-    - [ ] Document Redis restore caveats in docblocks.
+    - [x] Document Redis restore caveats in docblocks.
+    - [x] Redis supports both passwordless (default user) and ACL-authenticated users via `REDISCLI_AUTH`.
+    - [x] SQLite supports file-based databases and in-memory databases via `SQLite3` and `PDO` connections.
+    - [x] MongoDB supports full archive dump/restore round-trip.
   - **Depends on:** `[MB-02]`
-  - **Status:** ⏳ Pending
+  - **Status:** ✅ Completed
 
 - [ ] **`[MB-07]` EngineRegistry**
   - **Description:** Registry class providing access to the five built-in engines.
