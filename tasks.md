@@ -3,19 +3,19 @@
 This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0).
 
 > [!NOTE]
-> This is a greenfield project. Currently, 9 out of 16 tasks are completed.
+> This is a greenfield project. Currently, 10 out of 16 tasks are completed.
 
 ## 📊 Progress Summary
 
-- **Total Progress:** 56% (9/16 Tasks)
-- **Estimated Effort Remaining:** ~4 developer-days
+- **Total Progress:** 62% (10/16 Tasks)
+- **Estimated Effort Remaining:** ~3.5 developer-days
 
 | Category | Tasks Completed | Progress |
 | :--- | :---: | :---: |
 | **Foundation** | 3 / 3 | 100% |
 | **Engines** | 4 / 4 | 100% |
 | **Compression & Process** | 1 / 1 | 100% |
-| **Runners & Local Storage** | 1 / 2 | 50% |
+| **Runners & Local Storage** | 2 / 2 | 100% |
 | **Adapter Packages** | 0 / 2 | 0% |
 | **CLI & Release** | 0 / 4 | 0% |
 
@@ -110,13 +110,13 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
   - **Depends on:** `[MB-03]`
   - **Status:** ✅ Completed
 
-- [ ] **`[MB-10]` BackupRunner & RestoreRunner**
+- [x] **`[MB-10]` BackupRunner & RestoreRunner**
   - **Description:** Orchestrate dump → compress → checksum → metadata sidecar → upload, and vice versa.
   - **Acceptance Criteria:**
-    - [ ] Never log passwords or leak credentials.
-    - [ ] Computes and verifies SHA-256 checksums.
+    - [x] Never log passwords or leak credentials.
+    - [x] Computes and verifies SHA-256 checksums.
   - **Depends on:** `[MB-07]`, `[MB-08]`, `[MB-09]`
-  - **Status:** ⏳ Pending
+  - **Status:** ✅ Completed
 
 ---
 
