@@ -41,17 +41,23 @@ final class StorageAdapterFactoryTest extends TestCase
         $this->assertInstanceOf(\MonkeysLegion\Backup\Storage\GcsStorageAdapter::class, $adapter);
     }
 
-    public function testThrowsExceptionWhenOptionalAdapterPackageIsMissingForS3(): void
+    public function testS3AdapterResolvesWhenClassExists(): void
     {
+        // S3StorageAdapter is now implemented; the factory must resolve it without
+        // throwing StorageAdapterNotFoundException.
         $config = StorageConfig::fromArray([
-            'driver' => 's3',
-            'bucket' => 'my-bucket'
+            'driver'         => 's3',
+            'bucket'         => 'unit-test-bucket',
+            'region'         => 'us-east-1',
+            'key'            => 'test-key',
+            'secret'         => 'test-secret',
+            'endpoint'       => 'http://localhost:9000',
+            'use_path_style' => true,
         ]);
 
-        $this->expectException(StorageAdapterNotFoundException::class);
-        $this->expectExceptionMessageIsOrContains('Adapter "s3" is not available. Install monkeysbackup/storage-s3 or register a custom adapter.');
-
-        StorageAdapterFactory::fromConfig($config);
+        $adapter = StorageAdapterFactory::fromConfig($config);
+        $this->assertInstanceOf(StorageAdapterInterface::class, $adapter);
+        $this->assertInstanceOf(\MonkeysLegion\Backup\Storage\S3StorageAdapter::class, $adapter);
     }
 
     public function testRegistersCustomAdapterGlobally(): void
