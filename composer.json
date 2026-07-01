@@ -1,0 +1,12 @@
+{
+    "name": "monkeyscloud/monkeyslegion-backup",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "MonkeysLegion\\Backup\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {}
+}
