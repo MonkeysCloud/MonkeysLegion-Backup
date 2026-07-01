@@ -74,4 +74,12 @@ final class ProcessRunnerTest extends TestCase
         // Run php sleep 3 seconds
         $runner->run(['php', '-r', 'sleep(3);']);
     }
+
+    public function testRunThrowsOnLaunchFailure(): void
+    {
+        $runner = new ProcessRunner();
+        $this->expectException(EngineException::class);
+        $this->expectExceptionMessageIsOrContains("Failed to launch subprocess");
+        @$runner->run([]);
+    }
 }

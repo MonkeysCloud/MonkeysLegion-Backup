@@ -136,7 +136,7 @@ final class SqliteEngine implements EngineInterface
         } else {
             $dir = \dirname($db);
             if (!\is_dir($dir)) {
-                if (!\mkdir($dir, 0755, true) && !\is_dir($dir)) {
+                if (!@\mkdir($dir, 0755, true) && !\is_dir($dir)) {
                     throw new EngineException("Failed to create directory \"{$dir}\" for SQLite database.");
                 }
             }

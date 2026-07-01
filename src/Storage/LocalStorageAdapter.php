@@ -137,10 +137,21 @@ final class LocalStorageAdapter implements StorageAdapterInterface
 
     private function getFullPath(string $remoteKey): string
     {
-        // Safe key to prevent directory traversal
-        $safeKey = \str_replace(['..', "\0"], '', $remoteKey);
-        $safeKey = \ltrim(\str_replace('\\', '/', $safeKey), '/');
-        return "{$this->root}/{$safeKey}";
+        // Strip null bytes and normalise separators
+        $safeKey = \str_replace(["\0", '\\'], ['', '/'], $remoteKey);
+        $safeKey = \ltrim($safeKey, '/');
+        $candidate = "{$this->root}/{$safeKey}";
+
+        // Resolve the parent directory (the file itself may not exist yet)
+        $parentDir  = \dirname($candidate);
+        $realRoot   = \realpath($this->root);
+        $realParent = \realpath($parentDir) ?: $parentDir;
+
+        if ($realRoot === false || !\str_starts_with($realParent . '/', $realRoot . '/')) {
+            throw new \InvalidArgumentException("Path traversal detected in remote key: {$remoteKey}");
+        }
+
+        return $candidate;
     }
 
     private function copyAtomically(string $src, string $dest): void

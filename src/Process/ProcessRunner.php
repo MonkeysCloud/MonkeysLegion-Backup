@@ -14,7 +14,7 @@ use MonkeysLegion\Backup\Exception\EngineException;
  * - Captures stderr; redacts secrets from debug output.
  * - Enforces a configurable timeout.
  */
-final class ProcessRunner
+class ProcessRunner
 {
     public function __construct(
         private int $timeout = 3600
@@ -36,6 +36,10 @@ final class ProcessRunner
         ?string $stdin = null,
         array $redact = []
     ): string {
+        if ($cmd === []) {
+            throw new EngineException("Failed to launch subprocess: empty command");
+        }
+
         $descriptors = [
             0 => ['pipe', 'r'],   // stdin
             1 => ['pipe', 'w'],   // stdout

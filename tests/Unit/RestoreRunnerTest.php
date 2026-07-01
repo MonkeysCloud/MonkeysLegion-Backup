@@ -248,4 +248,124 @@ final class RestoreRunnerTest extends TestCase
         // Verify source path was cleaned up
         $this->assertFileDoesNotExist($restoredOptions->sourcePath);
     }
+
+    public function testRestoreMetaDownloadFailureThrows(): void
+    {
+        $engine = $this->createStub(EngineInterface::class);
+        $registry = new EngineRegistry();
+        $registry->register('mysql', $engine);
+
+        $storage = $this->createMock(StorageAdapterInterface::class);
+        $storage->method('download')
+            ->willThrowException(new \RuntimeException('Storage unavailable'));
+
+        $compressor = $this->createStub(CompressorInterface::class);
+        $runner = new RestoreRunner($registry, $storage, $compressor);
+
+        $this->expectException(BackupException::class);
+        $this->expectExceptionMessageIsOrContains('Failed to download metadata');
+
+        $runner->run(new RestoreOptions(
+            engine: 'mysql',
+            sourcePath: 'backups/mydb.sql',
+            database: 'mydb'
+        ));
+    }
+
+    public function testRestoreEngineFailureTriggersCleanup(): void
+    {
+        $engine = $this->createStub(EngineInterface::class);
+        $engine->method('name')->willReturn('mysql');
+        $engine->method('restore')->willThrowException(new \RuntimeException('Engine failed'));
+
+        $registry = new EngineRegistry();
+        $registry->register('mysql', $engine);
+
+        $checksum = \hash('sha256', 'content');
+        $metadata = new BackupMetadata(
+            engine: 'mysql',
+            version: '1.0.0',
+            createdAt: new DateTimeImmutable(),
+            checksum: $checksum,
+            compressed: false,
+            originalSize: 7,
+            compressedSize: 7
+        );
+
+        $storage = new class($metadata->toJson(), 'content') implements StorageAdapterInterface {
+            public function __construct(private string $metaJson, private string $backupContent) {}
+            public function download(string $remoteKey, string $localPath): void
+            {
+                \file_put_contents($localPath, \str_ends_with($remoteKey, '.meta') ? $this->metaJson : $this->backupContent);
+            }
+            public function upload(string $localPath, string $remoteKey, array $metadata = []): string { return ''; }
+            public function delete(string $remoteKey): void {}
+            public function list(string $prefix = ''): array { return []; }
+        };
+
+        $compressor = $this->createStub(CompressorInterface::class);
+        $runner = new RestoreRunner($registry, $storage, $compressor);
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessageIsOrContains('Engine failed');
+
+        $runner->run(new RestoreOptions(
+            engine: 'mysql',
+            sourcePath: 'backups/mydb.sql',
+            database: 'mydb'
+        ));
+    }
+
+    public function testRestoreRunnerWithLogger(): void
+    {
+        $engine = $this->createStub(EngineInterface::class);
+        $engine->method('name')->willReturn('mysql');
+
+        $registry = new EngineRegistry();
+        $registry->register('mysql', $engine);
+
+        $checksum = \hash('sha256', 'data');
+        $metadata = new BackupMetadata(
+            engine: 'mysql',
+            version: '1.0.0',
+            createdAt: new DateTimeImmutable(),
+            checksum: $checksum,
+            compressed: false,
+            originalSize: 4,
+            compressedSize: 4
+        );
+
+        $storage = new class($metadata->toJson(), 'data') implements StorageAdapterInterface {
+            public function __construct(private string $metaJson, private string $backupContent) {}
+            public function download(string $remoteKey, string $localPath): void
+            {
+                \file_put_contents($localPath, \str_ends_with($remoteKey, '.meta') ? $this->metaJson : $this->backupContent);
+            }
+            public function upload(string $localPath, string $remoteKey, array $metadata = []): string { return ''; }
+            public function delete(string $remoteKey): void {}
+            public function list(string $prefix = ''): array { return []; }
+        };
+
+        $logMessages = [];
+        $logger = new class($logMessages) implements \MonkeysLegion\Backup\Contract\LoggerInterface {
+            public function __construct(private array &$messages) {}
+            public function log(string $message, array $context = []): void
+            {
+                $this->messages[] = $message;
+            }
+        };
+
+        $compressor = $this->createStub(CompressorInterface::class);
+        $runner = new RestoreRunner($registry, $storage, $compressor, $logger);
+
+        $runner->run(new RestoreOptions(
+            engine: 'mysql',
+            sourcePath: 'backups/mydb.sql',
+            database: 'mydb',
+            password: 'super_secret'
+        ));
+
+        $this->assertNotEmpty($logMessages);
+        $this->assertStringContainsString('Starting restore', $logMessages[0]);
+    }
 }

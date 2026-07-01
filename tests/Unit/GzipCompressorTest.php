@@ -109,4 +109,68 @@ final class GzipCompressorTest extends TestCase
         // Level 9 should be smaller than or equal to level 1 for compressible content
         $this->assertLessThanOrEqual(\filesize($compressed1File), \filesize($compressed9File));
     }
+
+    public function testCompressThrowsWhenTargetCannotBeOpened(): void
+    {
+        $originalFile = "{$this->tempDir}/original.txt";
+        \file_put_contents($originalFile, 'data');
+        $targetFile = "{$this->tempDir}/non_existent_dir/out.gz"; // parent dir doesn't exist
+
+        $this->expectException(BackupException::class);
+        $this->expectExceptionMessageIsOrContains("cannot open target file");
+
+        $this->compressor->compress($originalFile, $targetFile);
+    }
+
+    public function testDecompressThrowsWhenTargetCannotBeOpened(): void
+    {
+        $originalFile = "{$this->tempDir}/original.txt";
+        \file_put_contents($originalFile, 'data');
+        $compressedFile = "{$this->tempDir}/compressed.gz";
+        $this->compressor->compress($originalFile, $compressedFile);
+
+        $targetFile = "{$this->tempDir}/non_existent_dir/out.txt";
+
+        $this->expectException(BackupException::class);
+        $this->expectExceptionMessageIsOrContains("cannot open target file");
+
+        $this->compressor->decompress($compressedFile, $targetFile);
+    }
+
+    public function testDecompressThrowsWhenSourceNotReadable(): void
+    {
+        $this->expectException(BackupException::class);
+        $this->expectExceptionMessageIsOrContains("cannot open gzip source");
+
+        $this->compressor->decompress($this->tempDir . '/nonexistent.gz', $this->tempDir . '/out.txt');
+    }
+
+    public function testAssertGzipPrivateMethodFailurePaths(): void
+    {
+        $ref = new \ReflectionClass($this->compressor);
+        $method = $ref->getMethod('assertGzip');
+        $method->setAccessible(true);
+
+        // Test non-existent file
+        try {
+            $method->invoke($this->compressor, $this->tempDir . '/non_existent_file_for_assert');
+            $this->fail('Expected exception was not thrown');
+        } catch (\ReflectionException $e) {
+            throw $e;
+        } catch (\Throwable $e) {
+            $this->assertInstanceOf(BackupException::class, $e);
+            $this->assertStringContainsString('cannot open', $e->getMessage());
+        }
+
+        // Test directory path
+        try {
+            $method->invoke($this->compressor, $this->tempDir);
+            $this->fail('Expected exception was not thrown');
+        } catch (\ReflectionException $e) {
+            throw $e;
+        } catch (\Throwable $e) {
+            $this->assertInstanceOf(BackupException::class, $e);
+            $this->assertStringContainsString('cannot open', $e->getMessage());
+        }
+    }
 }

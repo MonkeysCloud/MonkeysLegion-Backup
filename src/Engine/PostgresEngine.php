@@ -42,8 +42,8 @@ final class PostgresEngine implements EngineInterface
 
     public function dump(DumpOptions $options): BackupArtifact
     {
-        $this->assertBinary('pg_dump');
         $this->assertDatabase($options);
+        $this->assertBinary('pg_dump');
 
         $tmp  = \sys_get_temp_dir();
         $date = \date('Ymd_His');
@@ -261,7 +261,8 @@ final class PostgresEngine implements EngineInterface
 
     private function assertBinary(string $bin): void
     {
-        \exec("command -v {$bin}", $out, $code);
+        $proc = @\proc_open(['which', $bin], [1 => ['file', '/dev/null', 'w'], 2 => ['file', '/dev/null', 'w']], $pipes);
+        $code = \is_resource($proc) ? \proc_close($proc) : 1;
         if ($code !== 0) {
             throw new EngineException("Required binary \"{$bin}\" not found on PATH.");
         }

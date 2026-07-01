@@ -127,6 +127,49 @@ final class ValueObjectTest extends TestCase
         $this->assertSame($metadata->compressedSize, $restored->compressedSize);
     }
 
+    public function testBackupMetadataThrowsOnMissingKeys(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageIsOrContains('Missing key "engine" in metadata array.');
+
+        BackupMetadata::fromArray([
+            'version' => '1.0.0',
+            // 'engine' missing
+        ]);
+    }
+
+    public function testBackupMetadataThrowsOnInvalidTimestamp(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageIsOrContains('Invalid created_at timestamp format');
+
+        BackupMetadata::fromArray([
+            'engine' => 'mysql',
+            'version' => '1.0.0',
+            'created_at' => 'invalid-date',
+            'checksum' => 'hash',
+            'compressed' => false,
+            'original_size' => 10,
+            'compressed_size' => 10,
+        ]);
+    }
+
+    public function testBackupMetadataThrowsOnInvalidJson(): void
+    {
+        $this->expectException(\JsonException::class);
+
+        BackupMetadata::fromJson('invalid-json');
+    }
+
+    public function testBackupMetadataThrowsOnNonArrayJson(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageIsOrContains('Invalid JSON metadata.');
+
+        BackupMetadata::fromJson('123');
+    }
+
+
     public function testStorageConfigFromArrayAndGetters(): void
     {
         $config = StorageConfig::fromArray([
@@ -180,5 +223,26 @@ final class ValueObjectTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         StorageConfig::fromJsonFile('/path/to/non-existent-file.json');
+    }
+
+    public function testStorageConfigFromJsonFileThrowsOnInvalidJson(): void
+    {
+        $tmpFile = tempnam(sys_get_temp_dir(), 'storage_config_test');
+        file_put_contents($tmpFile, 'this is not valid json {{{');
+
+        try {
+            $this->expectException(InvalidArgumentException::class);
+            $this->expectExceptionMessageIsOrContains('Invalid JSON in config file');
+            StorageConfig::fromJsonFile($tmpFile);
+        } finally {
+            @unlink($tmpFile);
+        }
+    }
+
+    public function testStorageConfigMissingDriverThrows(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Storage config must specify a "driver".');
+        new StorageConfig([]);
     }
 }

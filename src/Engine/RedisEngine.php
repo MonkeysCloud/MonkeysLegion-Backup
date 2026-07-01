@@ -152,7 +152,8 @@ final class RedisEngine implements EngineInterface
 
     private function assertBinary(string $bin): void
     {
-        \exec("command -v {$bin}", $out, $code);
+        $proc = @\proc_open(['which', $bin], [1 => ['file', '/dev/null', 'w'], 2 => ['file', '/dev/null', 'w']], $pipes);
+        $code = \is_resource($proc) ? \proc_close($proc) : 1;
         if ($code !== 0) {
             throw new EngineException("Required binary \"{$bin}\" not found on PATH.");
         }

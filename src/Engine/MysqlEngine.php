@@ -42,8 +42,8 @@ final class MysqlEngine implements EngineInterface
 
     public function dump(DumpOptions $options): BackupArtifact
     {
-        $this->assertBinary('mysqldump');
         $this->assertDatabase($options);
+        $this->assertBinary('mysqldump');
 
         $tmp  = \sys_get_temp_dir();
         $date = \date('Ymd_His');
@@ -114,12 +114,12 @@ final class MysqlEngine implements EngineInterface
 
     public function restore(RestoreOptions $options): void
     {
-        $this->assertBinary('mysql');
-
         $src = $options->sourcePath;
         if (!\is_readable($src)) {
             throw new EngineException("Restore source \"{$src}\" is not readable.");
         }
+
+        $this->assertBinary('mysql');
 
         $sql = \file_get_contents($src);
         if ($sql === false) {
@@ -171,7 +171,8 @@ final class MysqlEngine implements EngineInterface
 
     private function assertBinary(string $bin): void
     {
-        \exec("command -v {$bin}", $out, $code);
+        $proc = @\proc_open(['which', $bin], [1 => ['file', '/dev/null', 'w'], 2 => ['file', '/dev/null', 'w']], $pipes);
+        $code = \is_resource($proc) ? \proc_close($proc) : 1;
         if ($code !== 0) {
             throw new EngineException("Required binary \"{$bin}\" not found on PATH.");
         }

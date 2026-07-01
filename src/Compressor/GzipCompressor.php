@@ -44,7 +44,7 @@ final class GzipCompressor implements CompressorInterface
         }
 
         $level = $this->level;
-        $out = \fopen("compress.zlib://{$targetPath}", 'wb' . $level);
+        $out = @\fopen("compress.zlib://{$targetPath}", 'wb' . $level);
         if ($out === false) {
             \fclose($in);
             throw new BackupException("GzipCompressor: cannot open target file \"{$targetPath}\" for writing.");
@@ -84,7 +84,7 @@ final class GzipCompressor implements CompressorInterface
             throw new BackupException("GzipCompressor: cannot open gzip source \"{$sourcePath}\" for reading.");
         }
 
-        $out = \fopen($targetPath, 'wb');
+        $out = @\fopen($targetPath, 'wb');
         if ($out === false) {
             \fclose($in);
             throw new BackupException("GzipCompressor: cannot open target file \"{$targetPath}\" for writing.");

@@ -185,4 +185,397 @@ final class CliCommandsTest extends TestCase
         $this->assertStringContainsString('mydb', $output);
         $this->assertStringContainsString('Running restore...', $output);
     }
+
+    public function testBaseCommandGetSafeOptionShortAndLong(): void
+    {
+        $command = new DumpCommand();
+
+        global $argv;
+        $oldArgv = $argv;
+
+        $argv = ['monkeys-backup', 'dump', '--engine=mysql', '-d', 'mydb', '--port', '3306', '--compress', 'true', '-P', 'mypass'];
+
+        $ref = new \ReflectionClass($command);
+        $method = $ref->getMethod('getSafeOption');
+        $method->setAccessible(true);
+
+        $this->assertSame('mysql', $method->invoke($command, 'engine'));
+        $this->assertSame('mydb', $method->invoke($command, 'database'));
+        $this->assertSame('3306', $method->invoke($command, 'port'));
+        $this->assertSame('true', $method->invoke($command, 'compress'));
+        $this->assertSame('mypass', $method->invoke($command, 'password'));
+
+        $argv = $oldArgv;
+    }
+
+    public function testBaseCommandGetDbOptionFromEnv(): void
+    {
+        $command = new DumpCommand();
+
+        global $argv;
+        $oldArgv = $argv;
+        $argv = ['monkeys-backup', 'dump'];
+
+        \putenv('MYSQL_DATABASE=mysql_env_db');
+        \putenv('DB_PORT=9999');
+
+        $ref = new \ReflectionClass($command);
+        $getDbOption = $ref->getMethod('getDbOption');
+        $getDbOption->setAccessible(true);
+
+        $this->assertSame('mysql_env_db', $getDbOption->invoke($command, 'mysql', 'database'));
+        $this->assertSame('9999', $getDbOption->invoke($command, 'mysql', 'port'));
+
+        \putenv('MYSQL_DATABASE');
+        \putenv('DB_PORT');
+
+        $argv = $oldArgv;
+    }
+
+    public function testBaseCommandIsDryRun(): void
+    {
+        $command = new DumpCommand();
+
+        global $argv;
+        $oldArgv = $argv;
+
+        $argv = ['monkeys-backup', 'dump', '--dry'];
+        $ref = new \ReflectionClass($command);
+        $isDryRun = $ref->getMethod('isDryRun');
+        $isDryRun->setAccessible(true);
+
+        $this->assertTrue($isDryRun->invoke($command));
+
+        $argv = $oldArgv;
+    }
+
+    public function testBaseCommandResolveLogger(): void
+    {
+        $loggerMock = $this->createMock(\MonkeysLegion\Logger\LoggerInterface::class);
+        $loggerMock->expects($this->once())->method('info')->with('test log message');
+        $this->container->set(\MonkeysLegion\Logger\LoggerInterface::class, $loggerMock);
+
+        $command = new DumpCommand();
+        $ref = new \ReflectionClass($command);
+        $resolveLogger = $ref->getMethod('resolveLogger');
+        $resolveLogger->setAccessible(true);
+
+        /** @var \MonkeysLegion\Backup\Contract\LoggerInterface $logger */
+        $logger = $resolveLogger->invoke($command);
+        $this->assertNotNull($logger);
+        $logger->log('test log message');
+    }
+
+    public function testDumpCommandMissingEngineOption(): void
+    {
+        $command = new DumpCommand();
+
+        global $argv;
+        $oldArgv = $argv;
+        $argv = ['monkeys-backup', 'dump'];
+
+        $code = $command();
+        $output = implode("\n", BaseCommand::$capturedOutput ?? []);
+
+        $argv = $oldArgv;
+
+        $this->assertSame(1, $code);
+        $this->assertStringContainsString('Error: --engine option is required.', $output);
+    }
+
+    public function testDumpCommandMissingDatabaseOption(): void
+    {
+        $command = new DumpCommand();
+
+        global $argv;
+        $oldArgv = $argv;
+        $argv = ['monkeys-backup', 'dump', '--engine=mysql'];
+
+        $code = $command();
+        $output = implode("\n", BaseCommand::$capturedOutput ?? []);
+
+        $argv = $oldArgv;
+
+        $this->assertSame(1, $code);
+        $this->assertStringContainsString('Error: --database option (or environment variable) is required.', $output);
+    }
+
+    public function testDumpCommandHandlesServiceRegistrationException(): void
+    {
+        // No services registered in the container
+        $command = new DumpCommand();
+
+        global $argv;
+        $oldArgv = $argv;
+        $argv = ['monkeys-backup', 'dump', '--engine=mysql', '--database=mydb'];
+
+        $code = $command();
+        $output = implode("\n", BaseCommand::$capturedOutput ?? []);
+
+        $argv = $oldArgv;
+
+        $this->assertSame(1, $code);
+        $this->assertStringContainsString('Required services are not registered', $output);
+    }
+
+    public function testRestoreCommandMissingEngineOption(): void
+    {
+        $command = new RestoreCommand();
+
+        global $argv;
+        $oldArgv = $argv;
+        $argv = ['monkeys-backup', 'restore'];
+
+        $code = $command();
+        $output = implode("\n", BaseCommand::$capturedOutput ?? []);
+
+        $argv = $oldArgv;
+
+        $this->assertSame(1, $code);
+        $this->assertStringContainsString('Error: --engine option is required.', $output);
+    }
+
+    public function testRestoreCommandMissingDatabaseOption(): void
+    {
+        $command = new RestoreCommand();
+
+        global $argv;
+        $oldArgv = $argv;
+        $argv = ['monkeys-backup', 'restore', '--engine=mysql'];
+
+        $code = $command();
+        $output = implode("\n", BaseCommand::$capturedOutput ?? []);
+
+        $argv = $oldArgv;
+
+        $this->assertSame(1, $code);
+        $this->assertStringContainsString('Error: --database option (or environment variable) is required.', $output);
+    }
+
+    public function testRestoreCommandMissingKeyOption(): void
+    {
+        $command = new RestoreCommand();
+
+        global $argv;
+        $oldArgv = $argv;
+        $argv = ['monkeys-backup', 'restore', '--engine=mysql', '--database=mydb'];
+
+        $code = $command();
+        $output = implode("\n", BaseCommand::$capturedOutput ?? []);
+
+        $argv = $oldArgv;
+
+        $this->assertSame(1, $code);
+        $this->assertStringContainsString('Error: --key option (backup key) is required.', $output);
+    }
+
+    public function testListCommandMissingStorageService(): void
+    {
+        $command = new ListCommand();
+
+        global $argv;
+        $oldArgv = $argv;
+        $argv = ['monkeys-backup', 'list'];
+
+        $code = $command();
+        $output = implode("\n", BaseCommand::$capturedOutput ?? []);
+
+        $argv = $oldArgv;
+
+        $this->assertSame(1, $code);
+        $this->assertStringContainsString('StorageAdapterInterface is not registered', $output);
+    }
+
+    public function testListCommandHandlesListFailure(): void
+    {
+        $storage = $this->createMock(StorageAdapterInterface::class);
+        $storage->method('list')->willThrowException(new \RuntimeException('List storage failure'));
+        $this->container->set(StorageAdapterInterface::class, $storage);
+
+        $command = new ListCommand();
+
+        global $argv;
+        $oldArgv = $argv;
+        $argv = ['monkeys-backup', 'list'];
+
+        $code = $command();
+        $output = implode("\n", BaseCommand::$capturedOutput ?? []);
+
+        $argv = $oldArgv;
+
+        $this->assertSame(1, $code);
+        $this->assertStringContainsString('Failed to list backups: List storage failure', $output);
+    }
+
+    public function testListCommandNoBackupsFound(): void
+    {
+        $storage = $this->createMock(StorageAdapterInterface::class);
+        $storage->method('list')->willReturn([]);
+        $this->container->set(StorageAdapterInterface::class, $storage);
+
+        $command = new ListCommand();
+
+        global $argv;
+        $oldArgv = $argv;
+        $argv = ['monkeys-backup', 'list'];
+
+        $code = $command();
+        $output = implode("\n", BaseCommand::$capturedOutput ?? []);
+
+        $argv = $oldArgv;
+
+        $this->assertSame(0, $code);
+        $this->assertStringContainsString('No backups found in storage.', $output);
+    }
+
+    // -------------------------------------------------------------------------
+    // EnginesCommand — success with an explicitly registered engine
+    // -------------------------------------------------------------------------
+
+    public function testEnginesCommandSuccess(): void
+    {
+        $engine = $this->createMock(EngineInterface::class);
+        $engine->method('supports')->willReturn(true);
+
+        $registry = new EngineRegistry();
+        $registry->register('mysql', $engine);
+        $this->container->set(EngineRegistry::class, $registry);
+
+        $command = new EnginesCommand();
+
+        global $argv;
+        $oldArgv = $argv;
+        $argv = ['monkeys-backup', 'engines'];
+
+        $code = $command();
+        $output = implode("\n", BaseCommand::$capturedOutput ?? []);
+
+        $argv = $oldArgv;
+
+        $this->assertSame(0, $code);
+        $this->assertStringContainsString('Registered backup engines', $output);
+    }
+
+    // -------------------------------------------------------------------------
+    // DumpCommand dry-run path
+    // -------------------------------------------------------------------------
+
+    public function testDumpCommandDryRun(): void
+    {
+        $command = new DumpCommand();
+
+        global $argv;
+        $oldArgv = $argv;
+        $argv = ['monkeys-backup', 'dump', '--engine=mysql', '--database=mydb', '--dry-run'];
+
+        $code = $command();
+        $output = implode("\n", BaseCommand::$capturedOutput ?? []);
+
+        $argv = $oldArgv;
+
+        $this->assertSame(0, $code);
+        $this->assertStringContainsString('Dry-run mode active', $output);
+    }
+
+    // -------------------------------------------------------------------------
+    // RestoreCommand dry-run + service exception paths
+    // -------------------------------------------------------------------------
+
+    public function testRestoreCommandDryRun(): void
+    {
+        $command = new RestoreCommand();
+
+        global $argv;
+        $oldArgv = $argv;
+        $argv = ['monkeys-backup', 'restore', '--engine=mysql', '--database=mydb', '--key=backups/x.sql', '--dry-run'];
+
+        $code = $command();
+        $output = implode("\n", BaseCommand::$capturedOutput ?? []);
+
+        $argv = $oldArgv;
+
+        $this->assertSame(0, $code);
+        $this->assertStringContainsString('Dry-run mode active', $output);
+    }
+
+    public function testRestoreCommandHandlesServiceRegistrationException(): void
+    {
+        $command = new RestoreCommand();
+
+        global $argv;
+        $oldArgv = $argv;
+        $argv = ['monkeys-backup', 'restore', '--engine=mysql', '--database=mydb', '--key=backups/x.sql'];
+
+        $code = $command();
+        $output = implode("\n", BaseCommand::$capturedOutput ?? []);
+
+        $argv = $oldArgv;
+
+        $this->assertSame(1, $code);
+        $this->assertStringContainsString('Required services are not registered', $output);
+    }
+
+    // -------------------------------------------------------------------------
+    // BackupException::getContext()
+    // -------------------------------------------------------------------------
+
+    public function testBackupExceptionGetContext(): void
+    {
+        $e = new \MonkeysLegion\Backup\Exception\BackupException(
+            'test error',
+            0,
+            ['key' => 'value']
+        );
+
+        $this->assertSame(['key' => 'value'], $e->getContext());
+        $this->assertSame('test error', $e->getMessage());
+    }
+
+    public function testBaseCommandOutputFallbacks(): void
+    {
+        $oldCaptured = BaseCommand::$capturedOutput;
+        BaseCommand::$capturedOutput = null;
+
+        ob_start();
+        try {
+            $command = new class extends BaseCommand {
+                protected function handle(): int { return 0; }
+                public function callInfo(): void { $this->info('test info'); }
+                public function callLine(): void { $this->line('test line'); }
+                public function callWarn(): void { $this->warn('test warn'); }
+                public function callError(): void { $this->error('test error'); }
+                public function callTable(): void { $this->table(['H'], [['R']]); }
+            };
+
+            $command->callInfo();
+            $command->callLine();
+            $command->callWarn();
+            $command->callError();
+            $command->callTable();
+            $command->logMessage('hello');
+        } finally {
+            ob_end_clean();
+            BaseCommand::$capturedOutput = $oldCaptured;
+        }
+        $this->assertTrue(true);
+    }
+
+    public function testBaseCommandResolveLoggerException(): void
+    {
+        $mockContainer = $this->createMock(Container::class);
+        $mockContainer->method('has')->willThrowException(new \RuntimeException('DI Container Error'));
+        Container::setInstance($mockContainer);
+
+        try {
+            $command = new DumpCommand();
+            $ref = new \ReflectionClass($command);
+            $resolveLogger = $ref->getMethod('resolveLogger');
+            $resolveLogger->setAccessible(true);
+
+            $logger = $resolveLogger->invoke($command);
+            $this->assertNull($logger);
+        } finally {
+            Container::setInstance($this->container);
+        }
+    }
 }

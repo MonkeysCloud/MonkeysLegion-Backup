@@ -171,14 +171,69 @@ final class LocalStorageAdapterTest extends TestCase
         $localFile = $this->tempDir . '/test.txt';
         \file_put_contents($localFile, 'data');
 
-        // Attempt path traversal using remote key
-        $traversalKey = '../../outside.txt';
-        $adapter->upload($localFile, $traversalKey);
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessageIsOrContains('Path traversal detected');
 
-        // Verify it was saved inside root directory, ignoring traversal dots
-        $expectedPath = $this->storageDir . '/outside.txt';
-        $this->assertFileExists($expectedPath);
-        // The parent of root directory should NOT have outside.txt
-        $this->assertFileDoesNotExist($this->tempDir . '/outside.txt');
+        $adapter->upload($localFile, '../../outside.txt');
+    }
+
+    public function testUploadThrowsOnInvalidLocalFile(): void
+    {
+        $adapter = new LocalStorageAdapter(['root' => $this->storageDir]);
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessageIsOrContains('Local file is not readable');
+
+        $adapter->upload('/nonexistent/file', 'test.txt');
+    }
+
+    public function testDownloadThrowsOnMissingRemoteFile(): void
+    {
+        $adapter = new LocalStorageAdapter(['root' => $this->storageDir]);
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessageIsOrContains('Remote file not found or not readable');
+
+        $adapter->download('nonexistent.txt', $this->tempDir . '/dest.txt');
+    }
+
+    public function testDownloadThrowsWhenDirectoryCreationFails(): void
+    {
+        $adapter = new LocalStorageAdapter(['root' => $this->storageDir]);
+
+        // Create a remote file
+        $local = $this->tempDir . '/src.txt';
+        \file_put_contents($local, 'data');
+        $adapter->upload($local, 'remote.txt');
+
+        // Create a file at the path where directory should be created
+        $conflictFile = $this->tempDir . '/conflict_file';
+        \file_put_contents($conflictFile, 'blocking file');
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessageIsOrContains('Failed to create directory');
+
+        $adapter->download('remote.txt', $conflictFile . '/dest.txt');
+    }
+
+    public function testInstantiationThrowsWhenRootIsFile(): void
+    {
+        $filePath = $this->tempDir . '/blocking_file';
+        \file_put_contents($filePath, 'content');
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessageIsOrContains('Failed to create root directory');
+
+        new LocalStorageAdapter(['root' => $filePath]);
+    }
+
+    public function testListReturnsEmptyArrayWhenRootIsDeleted(): void
+    {
+        $adapter = new LocalStorageAdapter(['root' => $this->storageDir]);
+        $this->assertDirectoryExists($this->storageDir);
+
+        $this->removeDirectory($this->storageDir);
+
+        $this->assertSame([], $adapter->list());
     }
 }

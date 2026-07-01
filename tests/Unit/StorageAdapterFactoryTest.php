@@ -90,6 +90,47 @@ final class StorageAdapterFactoryTest extends TestCase
         /** @var DummyStorageAdapter $adapter */
         $this->assertSame('bar', $adapter->options['foo'] ?? null);
     }
+
+    public function testThrowsExceptionWhenAdapterClassNotExists(): void
+    {
+        StorageAdapterFactory::register('fake_not_exists', 'MonkeysLegion\\Backup\\Storage\\NonExistentClass');
+
+        $this->expectException(StorageAdapterNotFoundException::class);
+        $this->expectExceptionMessageIsOrContains('Adapter "fake_not_exists" is not available. Install package for adapter "fake_not_exists" or register a custom adapter.');
+
+        $factory = new StorageAdapterFactory();
+        $factory->create('fake_not_exists');
+    }
+
+    public function testThrowsExceptionWhenAdapterClassNotExistsGcs(): void
+    {
+        StorageAdapterFactory::register('gcs', 'MonkeysLegion\\Backup\\Storage\\NonExistentClassGcs');
+
+        try {
+            $this->expectException(StorageAdapterNotFoundException::class);
+            $this->expectExceptionMessageIsOrContains('Adapter "gcs" is not available. Install monkeysbackup/storage-gcs or register a custom adapter.');
+
+            $factory = new StorageAdapterFactory();
+            $factory->create('gcs');
+        } finally {
+            StorageAdapterFactory::register('gcs', 'MonkeysLegion\\Backup\\Storage\\GcsStorageAdapter');
+        }
+    }
+
+    public function testThrowsExceptionWhenAdapterClassNotExistsS3(): void
+    {
+        StorageAdapterFactory::register('s3', 'MonkeysLegion\\Backup\\Storage\\NonExistentClassS3');
+
+        try {
+            $this->expectException(StorageAdapterNotFoundException::class);
+            $this->expectExceptionMessageIsOrContains('Adapter "s3" is not available. Install monkeysbackup/storage-s3 or register a custom adapter.');
+
+            $factory = new StorageAdapterFactory();
+            $factory->create('s3');
+        } finally {
+            StorageAdapterFactory::register('s3', 'MonkeysLegion\\Backup\\Storage\\S3StorageAdapter');
+        }
+    }
 }
 
 /**
