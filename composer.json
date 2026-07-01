@@ -28,11 +28,14 @@
         "phpstan/phpstan": "^2.2"
     },
     "scripts": {
-        "test": "vendor/bin/phpunit --testsuite Unit",
-        "test:all": "vendor/bin/phpunit",
-        "test:gcs": "vendor/bin/phpunit --group gcs",
-        "test:s3": "vendor/bin/phpunit --group s3",
-        "test:integration": "vendor/bin/phpunit --group gcs,s3",
-        "stan": "vendor/bin/phpstan analyse"
+        "test":             "vendor/bin/phpunit --testsuite Unit",
+        "test:all":         "vendor/bin/phpunit",
+        "test:gcs":         "vendor/bin/phpunit --group gcs",
+        "test:s3":          "vendor/bin/phpunit --group s3",
+        "test:mysql":       "vendor/bin/phpunit --group mysql",
+        "test:pgsql":       "vendor/bin/phpunit --group pgsql",
+        "test:db":          "vendor/bin/phpunit --group db",
+        "test:integration": "vendor/bin/phpunit --group gcs,s3,db",
+        "stan":             "vendor/bin/phpstan analyse"
     }
 }

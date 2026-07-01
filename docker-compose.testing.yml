@@ -32,3 +32,58 @@ services:
       interval: 2s
       timeout: 5s
       retries: 15
+
+  mysql:
+    image: mysql:8.4
+    container_name: mb_mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: mb_test_dump
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-psecret"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+
+  mysql-init:
+    image: mysql:8.4
+    container_name: mb_mysql_init
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+    command: >
+      bash -c "mysql -h mysql -u root -psecret -e
+      'CREATE DATABASE IF NOT EXISTS mb_test_restore;'"
+    restart: "no"
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: mb_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: mb_test_dump
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+
+  postgres-init:
+    image: postgres:16-alpine
+    container_name: mb_postgres_init
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PGPASSWORD: secret
+    command: >
+      psql -h postgres -U postgres -c "CREATE DATABASE mb_test_restore;"
+    restart: "no"

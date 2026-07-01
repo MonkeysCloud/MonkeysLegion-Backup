@@ -3,11 +3,11 @@
 This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0).
 
 > [!NOTE]
-> This is a greenfield project. Currently, 14 out of 16 tasks are completed.
+> This is a greenfield project. Currently, 15 out of 16 tasks are completed.
 
 ## 📊 Progress Summary
 
-- **Total Progress:** 87% (14/16 Tasks)
+- **Total Progress:** 94% (15/16 Tasks)
 - **Estimated Effort Remaining:** ~0.5 developer-days
 
 | Category | Tasks Completed | Progress |
@@ -17,7 +17,7 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
 | **Compression & Process** | 1 / 1 | 100% |
 | **Runners & Local Storage** | 2 / 2 | 100% |
 | **Adapter Packages** | 2 / 2 | 100% |
-| **CLI & Release** | 2 / 4 | 50% |
+| **CLI & Release** | 3 / 4 | 75% |
 
 ---
 
@@ -161,12 +161,15 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
   - **Depends on:** `[MB-10]`
   - **Status:** ✅ Completed
 
-- [ ] **`[MB-15]` Integration tests**
+- [x] **`[MB-15]` Integration tests**
   - **Description:** Setup Docker Compose CI to verify real dump & restore operations with live database instances.
   - **Acceptance Criteria:**
-    - [ ] CI pipeline validates end-to-end flow with MySQL/Postgres.
+    - [x] CI pipeline validates end-to-end flow with MySQL/Postgres.
+    - [x] `BackupRunnerIntegrationTest` — full pipeline (dump → store → restore → verify) for MySQL and Postgres.
+    - [x] MySQL/Postgres services added to `docker-compose.testing.yml`.
+    - [x] `composer test:mysql`, `test:pgsql`, `test:db` scripts added.
   - **Depends on:** `[MB-10]`
-  - **Status:** ⏳ Pending
+  - **Status:** ✅ Completed
 
 - [ ] **`[MB-16]` Release v1.0.0**
   - **Description:** Complete documentation, changelog, Packagist integration, and release tagging.
