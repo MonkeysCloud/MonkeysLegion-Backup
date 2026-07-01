@@ -3,19 +3,19 @@
 This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0).
 
 > [!NOTE]
-> This is a greenfield project. Currently, 8 out of 16 tasks are completed.
+> This is a greenfield project. Currently, 9 out of 16 tasks are completed.
 
 ## 📊 Progress Summary
 
-- **Total Progress:** 50% (8/16 Tasks)
-- **Estimated Effort Remaining:** ~4.5 developer-days
+- **Total Progress:** 56% (9/16 Tasks)
+- **Estimated Effort Remaining:** ~4 developer-days
 
 | Category | Tasks Completed | Progress |
 | :--- | :---: | :---: |
 | **Foundation** | 3 / 3 | 100% |
 | **Engines** | 4 / 4 | 100% |
 | **Compression & Process** | 1 / 1 | 100% |
-| **Runners & Local Storage** | 0 / 2 | 0% |
+| **Runners & Local Storage** | 1 / 2 | 50% |
 | **Adapter Packages** | 0 / 2 | 0% |
 | **CLI & Release** | 0 / 4 | 0% |
 
@@ -102,13 +102,13 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
 
 ### 4. Runners & Local Storage
 
-- [ ] **`[MB-09]` LocalStorageAdapter**
+- [x] **`[MB-09]` LocalStorageAdapter**
   - **Description:** Core local storage adapter implementing `StorageAdapterInterface`.
   - **Acceptance Criteria:**
-    - [ ] Creates nested directories automatically.
-    - [ ] Performs atomic writes using temp file + rename.
+    - [x] Creates nested directories automatically.
+    - [x] Performs atomic writes using temp file + rename.
   - **Depends on:** `[MB-03]`
-  - **Status:** ⏳ Pending
+  - **Status:** ✅ Completed
 
 - [ ] **`[MB-10]` BackupRunner & RestoreRunner**
   - **Description:** Orchestrate dump → compress → checksum → metadata sidecar → upload, and vice versa.
