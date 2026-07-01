@@ -3,17 +3,17 @@
 This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0).
 
 > [!NOTE]
-> This is a greenfield project. Currently, 6 out of 16 tasks are completed.
+> This is a greenfield project. Currently, 7 out of 16 tasks are completed.
 
 ## 📊 Progress Summary
 
-- **Total Progress:** 38% (6/16 Tasks)
+- **Total Progress:** 44% (7/16 Tasks)
 - **Estimated Effort Remaining:** ~5 developer-days
 
 | Category | Tasks Completed | Progress |
 | :--- | :---: | :---: |
 | **Foundation** | 3 / 3 | 100% |
-| **Engines** | 3 / 4 | 75% |
+| **Engines** | 4 / 4 | 100% |
 | **Compression & Process** | 0 / 1 | 0% |
 | **Runners & Local Storage** | 0 / 2 | 0% |
 | **Adapter Packages** | 0 / 2 | 0% |
@@ -77,13 +77,14 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
   - **Depends on:** `[MB-02]`
   - **Status:** ✅ Completed
 
-- [ ] **`[MB-07]` EngineRegistry**
+- [x] **`[MB-07]` EngineRegistry**
   - **Description:** Registry class providing access to the five built-in engines.
   - **Acceptance Criteria:**
-    - [ ] `EngineRegistry::default()` registers all five engines.
-    - [ ] Throws `EngineException` for unknown engines.
+    - [x] `EngineRegistry::default()` registers all five engines.
+    - [x] Throws `EngineException` for unknown engines.
+    - [x] `register(string $name, ...)` accepts any string key, not just built-in enum values.
   - **Depends on:** `[MB-04]`, `[MB-05]`, `[MB-06]`
-  - **Status:** ⏳ Pending
+  - **Status:** ✅ Completed
 
 ---
 
