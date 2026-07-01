@@ -93,7 +93,9 @@ final class StorageAdapterFactoryTest extends TestCase
 
     public function testThrowsExceptionWhenAdapterClassNotExists(): void
     {
-        StorageAdapterFactory::register('fake_not_exists', 'MonkeysLegion\\Backup\\Storage\\NonExistentClass');
+        $nonExistentClass = 'MonkeysLegion\\Backup\\Storage\\NonExistentClass';
+        /** @phpstan-ignore-next-line */
+        StorageAdapterFactory::register('fake_not_exists', $nonExistentClass);
 
         $this->expectException(StorageAdapterNotFoundException::class);
         $this->expectExceptionMessageIsOrContains('Adapter "fake_not_exists" is not available. Install package for adapter "fake_not_exists" or register a custom adapter.');
@@ -104,6 +106,7 @@ final class StorageAdapterFactoryTest extends TestCase
 
     public function testThrowsExceptionWhenAdapterClassNotExistsGcs(): void
     {
+        /** @phpstan-ignore-next-line */
         StorageAdapterFactory::register('gcs', 'MonkeysLegion\\Backup\\Storage\\NonExistentClassGcs');
 
         try {
@@ -119,6 +122,7 @@ final class StorageAdapterFactoryTest extends TestCase
 
     public function testThrowsExceptionWhenAdapterClassNotExistsS3(): void
     {
+        /** @phpstan-ignore-next-line */
         StorageAdapterFactory::register('s3', 'MonkeysLegion\\Backup\\Storage\\NonExistentClassS3');
 
         try {

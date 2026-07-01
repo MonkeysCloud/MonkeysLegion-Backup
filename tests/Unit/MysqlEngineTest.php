@@ -294,7 +294,6 @@ final class MysqlEngineTest extends TestCase
         );
 
         $engine->restore($options);
-        $this->assertTrue(true);
         \unlink($tmpFile);
     }
 }

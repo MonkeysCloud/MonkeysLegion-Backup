@@ -348,9 +348,9 @@ final class RestoreRunnerTest extends TestCase
             public function list(string $prefix = ''): array { return []; }
         };
 
-        $logMessages = [];
-        $logger = new class($logMessages) implements \MonkeysLegion\Backup\Contract\LoggerInterface {
-            public function __construct(private array &$messages) {}
+        $logger = new class implements \MonkeysLegion\Backup\Contract\LoggerInterface {
+            /** @var list<string> */
+            public array $messages = [];
             public function log(string $message, array $context = []): void
             {
                 $this->messages[] = $message;
@@ -367,7 +367,7 @@ final class RestoreRunnerTest extends TestCase
             password: 'super_secret'
         ));
 
-        $this->assertNotEmpty($logMessages);
-        $this->assertStringContainsString('Starting restore', $logMessages[0]);
+        $this->assertNotEmpty($logger->messages);
+        $this->assertStringContainsString('Starting restore', $logger->messages[0]);
     }
 }

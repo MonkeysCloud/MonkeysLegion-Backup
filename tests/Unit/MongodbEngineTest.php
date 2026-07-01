@@ -228,7 +228,6 @@ final class MongodbEngineTest extends TestCase
         );
 
         $engine->restore($options);
-        $this->assertTrue(true);
         \unlink($tmpFile);
     }
 }

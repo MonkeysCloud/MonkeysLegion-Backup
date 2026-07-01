@@ -293,7 +293,6 @@ final class PostgresEngineTest extends TestCase
         );
 
         $engine->restore($options);
-        $this->assertTrue(true);
         \unlink($tmpFile);
     }
 
@@ -318,7 +317,6 @@ final class PostgresEngineTest extends TestCase
         );
 
         $engine->restore($options);
-        $this->assertTrue(true);
         \unlink($tmpFile);
     }
 }

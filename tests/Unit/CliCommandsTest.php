@@ -262,9 +262,8 @@ final class CliCommandsTest extends TestCase
         $resolveLogger = $ref->getMethod('resolveLogger');
         $resolveLogger->setAccessible(true);
 
-        /** @var \MonkeysLegion\Backup\Contract\LoggerInterface $logger */
         $logger = $resolveLogger->invoke($command);
-        $this->assertNotNull($logger);
+        $this->assertInstanceOf(\MonkeysLegion\Backup\Contract\LoggerInterface::class, $logger);
         $logger->log('test log message');
     }
 
@@ -559,7 +558,7 @@ final class CliCommandsTest extends TestCase
             ob_end_clean();
             BaseCommand::$capturedOutput = $oldCaptured;
         }
-        $this->assertTrue(true);
+        $this->addToAssertionCount(1);
     }
 
     public function testBaseCommandResolveLoggerException(): void

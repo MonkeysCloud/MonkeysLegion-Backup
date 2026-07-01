@@ -131,16 +131,28 @@ final class S3StorageAdapterTest extends TestCase
 
     public function testDeleteObject(): void
     {
-        $mockHandler = new MockHandler();
-        $mockHandler->append(new Result([]));
-        $mockHandler->append(new Result([]));
+        $client = $this->getMockBuilder(S3Client::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['__call'])
+            ->getMock();
 
-        $client = new S3Client([
-            'version' => 'latest',
-            'region' => 'us-east-1',
-            'credentials' => ['key' => 'k', 'secret' => 's'],
-            'handler' => $mockHandler
-        ]);
+        $callCount = 0;
+
+        $client->expects($this->exactly(2))
+            ->method('__call')
+            ->willReturnCallback(function (string $name, array $args) use (&$callCount) {
+                $callCount++;
+
+                $this->assertEquals('deleteObject', $name);
+
+                if ($callCount === 1) {
+                    $this->assertEquals('test.txt', $args[0]['Key']);
+                } else {
+                    $this->assertEquals('test.txt.meta', $args[0]['Key']);
+                }
+
+                return new Result([]);
+            });
 
         $adapter = new S3StorageAdapter([
             'bucket' => 'test-bucket',
@@ -152,7 +164,6 @@ final class S3StorageAdapterTest extends TestCase
         $this->setPrivateProperty($adapter, 'client', $client);
 
         $adapter->delete('test.txt');
-        $this->assertTrue(true);
     }
 
     public function testListObjects(): void
