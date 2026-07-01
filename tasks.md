@@ -3,16 +3,16 @@
 This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0).
 
 > [!NOTE]
-> This is a greenfield project. Currently, 1 out of 16 tasks are completed.
+> This is a greenfield project. Currently, 2 out of 16 tasks are completed.
 
 ## 📊 Progress Summary
 
-- **Total Progress:** 6% (1/16 Tasks)
-- **Estimated Effort Remaining:** ~10 developer-days
+- **Total Progress:** 12% (2/16 Tasks)
+- **Estimated Effort Remaining:** ~9 developer-days
 
 | Category | Tasks Completed | Progress |
 | :--- | :---: | :---: |
-| **Foundation** | 1 / 3 | 33% |
+| **Foundation** | 2 / 3 | 66% |
 | **Engines** | 0 / 4 | 0% |
 | **Compression & Process** | 0 / 1 | 0% |
 | **Runners & Local Storage** | 0 / 2 | 0% |
@@ -30,17 +30,15 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
   - **Acceptance Criteria:**
     - [x] `composer test` passes on an empty suite.
     - [x] ADR `001-zero-core-dependencies.md` created and committed.
-  - **Estimate:** 1d
   - **Status:** ✅ Completed
 
-- [ ] **`[MB-02]` Contracts & value objects**
+- [x] **`[MB-02]` Contracts & value objects**
   - **Description:** Create core interfaces (`EngineInterface`, `StorageAdapterInterface`, `CompressorInterface`, `LoggerInterface`) and immutable value objects (`DumpOptions`, `RestoreOptions`, `BackupArtifact`, `BackupMetadata`, `StorageConfig`, `BackupResult`).
   - **Acceptance Criteria:**
-    - [ ] All value objects are immutable.
-    - [ ] `StorageConfig::fromArray()` and `fromJsonFile()` implemented.
+    - [x] All value objects are immutable.
+    - [x] `StorageConfig::fromArray()` and `fromJsonFile()` implemented.
   - **Depends on:** `[MB-01]`
-  - **Estimate:** 1d
-  - **Status:** ⏳ Pending
+  - **Status:** ✅ Completed
 
 - [ ] **`[MB-03]` StorageAdapterFactory**
   - **Description:** Implement factory that resolves `local`, `gcs`, and `s3` adapter classes. Check and throw `StorageAdapterNotFoundException` if optional packages are missing. Support custom register.
@@ -48,7 +46,6 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
     - [ ] Unit test verifies clear exception when package for `gcs`/`s3` is missing.
     - [ ] Unit test verifies custom adapter registration.
   - **Depends on:** `[MB-02]`
-  - **Estimate:** 1.5d
   - **Status:** ⏳ Pending
 
 ---
@@ -61,7 +58,6 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
     - [ ] Supports `--single-transaction`, `--routines`, and `--triggers`.
     - [ ] Unit tests assert argv array construction without running actual shell commands.
   - **Depends on:** `[MB-02]`
-  - **Estimate:** 1.5d
   - **Status:** ⏳ Pending
 
 - [ ] **`[MB-05]` PostgreSQL engine**
@@ -69,7 +65,6 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
   - **Acceptance Criteria:**
     - [ ] Supports plain SQL and custom (`-Fc`) formats.
   - **Depends on:** `[MB-02]`
-  - **Estimate:** 1.5d
   - **Status:** ⏳ Pending
 
 - [ ] **`[MB-06]` MongoDB, Redis, SQLite engines**
@@ -77,7 +72,6 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
   - **Acceptance Criteria:**
     - [ ] Document Redis restore caveats in docblocks.
   - **Depends on:** `[MB-02]`
-  - **Estimate:** 2d
   - **Status:** ⏳ Pending
 
 - [ ] **`[MB-07]` EngineRegistry**
@@ -86,7 +80,6 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
     - [ ] `EngineRegistry::default()` registers all five engines.
     - [ ] Throws `EngineException` for unknown engines.
   - **Depends on:** `[MB-04]`, `[MB-05]`, `[MB-06]`
-  - **Estimate:** 0.5d
   - **Status:** ⏳ Pending
 
 ---
@@ -99,7 +92,6 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
     - [ ] `ProcessRunner` handles timeouts, env injection, stderr merge, and secret redaction.
     - [ ] No shell injection vulnerability (argv array only).
   - **Depends on:** `[MB-02]`
-  - **Estimate:** 1.5d
   - **Status:** ⏳ Pending
 
 ---
@@ -112,7 +104,6 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
     - [ ] Creates nested directories automatically.
     - [ ] Performs atomic writes using temp file + rename.
   - **Depends on:** `[MB-03]`
-  - **Estimate:** 1d
   - **Status:** ⏳ Pending
 
 - [ ] **`[MB-10]` BackupRunner & RestoreRunner**
@@ -121,7 +112,6 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
     - [ ] Never log passwords or leak credentials.
     - [ ] Computes and verifies SHA-256 checksums.
   - **Depends on:** `[MB-07]`, `[MB-08]`, `[MB-09]`
-  - **Estimate:** 2d
   - **Status:** ⏳ Pending
 
 ---
@@ -133,7 +123,6 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
   - **Acceptance Criteria:**
     - [ ] Integrates with Google Cloud Storage SDK.
   - **Depends on:** `[MB-03]`
-  - **Estimate:** 1.5d
   - **Status:** ⏳ Pending
 
 - [ ] **`[MB-12]` Package `storage-s3`**
@@ -142,7 +131,6 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
     - [ ] Integrates with AWS S3 SDK.
     - [ ] Supports custom endpoint for MinIO compatibility.
   - **Depends on:** `[MB-03]`
-  - **Estimate:** 1.5d
   - **Status:** ⏳ Pending
 
 ---
@@ -155,7 +143,6 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
     - [ ] Commands: `engines`, `dump`, `restore`, `list`.
     - [ ] Supports `--dry-run`, `--config`, and environment variables.
   - **Depends on:** `[MB-10]`
-  - **Estimate:** 1.5d
   - **Status:** ⏳ Pending
 
 - [ ] **`[MB-14]` Unit test suite**
@@ -164,7 +151,6 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
     - [ ] PHPUnit runs successfully with high coverage.
     - [ ] PHPStan runs at Level 8 without issues.
   - **Depends on:** `[MB-10]`
-  - **Estimate:** 1.5d
   - **Status:** ⏳ Pending
 
 - [ ] **`[MB-15]` Integration tests**
@@ -172,7 +158,6 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
   - **Acceptance Criteria:**
     - [ ] CI pipeline validates end-to-end flow with MySQL/Postgres.
   - **Depends on:** `[MB-10]`
-  - **Estimate:** 1d
   - **Status:** ⏳ Pending
 
 - [ ] **`[MB-16]` Release v1.0.0**
@@ -180,16 +165,4 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
   - **Acceptance Criteria:**
     - [ ] Tag `v1.0.0` pushed and documentation complete.
   - **Depends on:** `[MB-13]`, `[MB-14]`, `[MB-15]`
-  - **Estimate:** 0.5d
   - **Status:** ⏳ Pending
-
----
-
-## 🔍 Discrepancies & Open Questions
-
-> [!WARNING]
-> **Namespace Mismatch:**
-> - `roadmap.md` references the namespace `MonkeysBackup\` and composer package `monkeysbackup/monkeysbackup`.
-> - The actual codebase (`composer.json`) is initialized with namespace `MonkeysLegion\Backup\` and package name `monkeyscloud/monkeyslegion-backup`.
->
-> *Recommendation:* Align all namespace references in the roadmap and code to `MonkeysLegion\Backup\`.
