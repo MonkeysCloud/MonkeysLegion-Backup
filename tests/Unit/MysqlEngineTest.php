@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MonkeysLegion\Backup\Tests\Unit;
 
-use MonkeysLegion\Backup\Engine\EngineName;
 use MonkeysLegion\Backup\Engine\MysqlEngine;
 use MonkeysLegion\Backup\ValueObject\DumpOptions;
 use MonkeysLegion\Backup\ValueObject\RestoreOptions;
@@ -31,8 +30,7 @@ final class MysqlEngineTest extends TestCase
 
     public function testName(): void
     {
-        $this->assertSame(EngineName::Mysql, $this->engine->name());
-        $this->assertSame('mysql', $this->engine->name()->value);
+        $this->assertSame('mysql', $this->engine->name());
     }
 
     public function testSupportsKnownFeatures(): void

@@ -26,9 +26,9 @@ final class PostgresEngine implements EngineInterface
         private ProcessRunner $runner = new ProcessRunner()
     ) {}
 
-    public function name(): EngineName
+    public function name(): string
     {
-        return EngineName::Postgres;
+        return EngineName::Postgres->value;
     }
 
     public function supports(string $feature): bool
@@ -67,7 +67,7 @@ final class PostgresEngine implements EngineInterface
 
         return new BackupArtifact(
             localPath: $outFile,
-            engine: $this->name()->value,
+            engine: $this->name(),
             database: $options->database
         );
     }

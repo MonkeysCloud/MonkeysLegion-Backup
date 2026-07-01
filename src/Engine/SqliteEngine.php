@@ -18,9 +18,9 @@ use MonkeysLegion\Backup\ValueObject\RestoreOptions;
  */
 final class SqliteEngine implements EngineInterface
 {
-    public function name(): EngineName
+    public function name(): string
     {
-        return EngineName::SQLite;
+        return EngineName::SQLite->value;
     }
 
     public function supports(string $feature): bool
@@ -80,7 +80,7 @@ final class SqliteEngine implements EngineInterface
 
         return new BackupArtifact(
             localPath: $outFile,
-            engine: $this->name()->value,
+            engine: $this->name(),
             database: $db
         );
     }

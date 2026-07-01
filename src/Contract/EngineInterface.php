@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MonkeysLegion\Backup\Contract;
 
-use MonkeysLegion\Backup\Engine\EngineName;
 use MonkeysLegion\Backup\ValueObject\DumpOptions;
 use MonkeysLegion\Backup\ValueObject\RestoreOptions;
 use MonkeysLegion\Backup\ValueObject\BackupArtifact;
@@ -12,9 +11,12 @@ use MonkeysLegion\Backup\ValueObject\BackupArtifact;
 interface EngineInterface
 {
     /**
-     * Get the engine name enum case (e.g. EngineName::Mysql).
+     * Return the engine's unique identifier string (e.g. 'mysql', 'postgres', 'cassandra').
+     *
+     * Built-in engines return the value of the matching {@see \MonkeysLegion\Backup\Engine\EngineName} case.
+     * Custom engines may return any non-empty lowercase string.
      */
-    public function name(): EngineName;
+    public function name(): string;
 
     /**
      * Dump the database using engine-specific configuration and return the local artifact.

@@ -26,9 +26,9 @@ final class MysqlEngine implements EngineInterface
         private ProcessRunner $runner = new ProcessRunner()
     ) {}
 
-    public function name(): EngineName
+    public function name(): string
     {
-        return EngineName::Mysql;
+        return EngineName::Mysql->value;
     }
 
     public function supports(string $feature): bool
@@ -63,7 +63,7 @@ final class MysqlEngine implements EngineInterface
 
         return new BackupArtifact(
             localPath: $outFile,
-            engine: $this->name()->value,
+            engine: $this->name(),
             database: $options->database
         );
     }

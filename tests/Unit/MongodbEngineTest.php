@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MonkeysLegion\Backup\Tests\Unit;
 
-use MonkeysLegion\Backup\Engine\EngineName;
 use MonkeysLegion\Backup\Engine\MongodbEngine;
 use MonkeysLegion\Backup\ValueObject\DumpOptions;
 use MonkeysLegion\Backup\ValueObject\RestoreOptions;
@@ -21,8 +20,7 @@ final class MongodbEngineTest extends TestCase
 
     public function testName(): void
     {
-        $this->assertSame(EngineName::MongoDB, $this->engine->name());
-        $this->assertSame('mongodb', $this->engine->name()->value);
+        $this->assertSame('mongodb', $this->engine->name());
     }
 
     public function testSupportsKnownFeatures(): void

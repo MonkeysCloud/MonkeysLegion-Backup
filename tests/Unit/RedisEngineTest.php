@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MonkeysLegion\Backup\Tests\Unit;
 
-use MonkeysLegion\Backup\Engine\EngineName;
 use MonkeysLegion\Backup\Engine\RedisEngine;
 use MonkeysLegion\Backup\ValueObject\DumpOptions;
 use PHPUnit\Framework\TestCase;
@@ -20,8 +19,7 @@ final class RedisEngineTest extends TestCase
 
     public function testName(): void
     {
-        $this->assertSame(EngineName::Redis, $this->engine->name());
-        $this->assertSame('redis', $this->engine->name()->value);
+        $this->assertSame('redis', $this->engine->name());
     }
 
     public function testSupportsKnownFeatures(): void

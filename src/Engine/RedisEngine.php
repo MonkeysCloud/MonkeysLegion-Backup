@@ -29,9 +29,9 @@ final class RedisEngine implements EngineInterface
         private ProcessRunner $runner = new ProcessRunner()
     ) {}
 
-    public function name(): EngineName
+    public function name(): string
     {
-        return EngineName::Redis;
+        return EngineName::Redis->value;
     }
 
     public function supports(string $feature): bool
@@ -65,7 +65,7 @@ final class RedisEngine implements EngineInterface
 
         return new BackupArtifact(
             localPath: $outFile,
-            engine: $this->name()->value,
+            engine: $this->name(),
             database: $db
         );
     }
