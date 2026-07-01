@@ -9,7 +9,9 @@ use Google\Cloud\Storage\StorageClient;
 use Google\Cloud\Storage\StorageObject;
 use MonkeysLegion\Backup\Storage\GcsStorageAdapter;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 
+#[AllowMockObjectsWithoutExpectations]
 final class GcsStorageAdapterTest extends TestCase
 {
     private string $tempDir;
@@ -105,7 +107,7 @@ final class GcsStorageAdapterTest extends TestCase
         $mockObject = $this->createMock(StorageObject::class);
 
         $mockClient->method('bucket')->willReturn($mockBucket);
-        $mockBucket->method('object')->with('test.txt')->willReturn($mockObject);
+        $mockBucket->expects($this->once())->method('object')->with('test.txt')->willReturn($mockObject);
 
         $mockObject->expects($this->once())
             ->method('downloadToFile')
@@ -205,7 +207,7 @@ final class GcsStorageAdapterTest extends TestCase
         $mockObjMeta->method('name')->willReturn('a.txt.meta');
 
         $mockClient->method('bucket')->willReturn($mockBucket);
-        $mockBucket->method('objects')
+        $mockBucket->expects($this->once())->method('objects')
             ->with(['prefix' => ''])
             ->willReturn([$mockObj1, $mockObj2, $mockObjMeta]);
 

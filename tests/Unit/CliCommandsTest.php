@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MonkeysLegion\Backup\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use MonkeysLegion\DI\Container;
 use MonkeysLegion\Backup\Cli\Command\BaseCommand;
 use MonkeysLegion\Backup\Cli\Command\EnginesCommand;
@@ -18,6 +19,7 @@ use MonkeysLegion\Backup\Engine\EngineRegistry;
 use MonkeysLegion\Backup\ValueObject\BackupArtifact;
 use MonkeysLegion\Backup\ValueObject\BackupMetadata;
 
+#[AllowMockObjectsWithoutExpectations]
 final class CliCommandsTest extends TestCase
 {
     private Container $container;

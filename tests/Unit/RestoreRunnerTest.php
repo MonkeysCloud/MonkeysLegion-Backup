@@ -13,8 +13,10 @@ use MonkeysLegion\Backup\Runner\RestoreRunner;
 use MonkeysLegion\Backup\ValueObject\BackupMetadata;
 use MonkeysLegion\Backup\ValueObject\RestoreOptions;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use DateTimeImmutable;
 
+#[AllowMockObjectsWithoutExpectations]
 final class RestoreRunnerTest extends TestCase
 {
     private string $tempDir;

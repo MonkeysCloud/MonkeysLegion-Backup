@@ -9,7 +9,9 @@ use MonkeysLegion\Backup\Exception\EngineException;
 use MonkeysLegion\Backup\ValueObject\DumpOptions;
 use MonkeysLegion\Backup\ValueObject\RestoreOptions;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 
+#[AllowMockObjectsWithoutExpectations]
 final class SqliteEngineTest extends TestCase
 {
     private SqliteEngine $engine;
