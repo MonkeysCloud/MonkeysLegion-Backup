@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d22d9eca295c4734bf34e18ecda80b70",
+    "content-hash": "ea2c145e2e851309eb8efeff37f46e5d",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -215,6 +215,96 @@
                 }
             ],
             "time": "2026-06-14T18:21:03+00:00"
+        },
+        {
+            "name": "doctrine/inflector",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/inflector.git",
+                "reference": "6d6c96277ea252fc1304627204c3d5e6e15faa3b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/6d6c96277ea252fc1304627204c3d5e6e15faa3b",
+                "reference": "6d6c96277ea252fc1304627204c3d5e6e15faa3b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^12.0 || ^13.0",
+                "phpstan/phpstan": "^1.12 || ^2.0",
+                "phpstan/phpstan-phpunit": "^1.4 || ^2.0",
+                "phpstan/phpstan-strict-rules": "^1.6 || ^2.0",
+                "phpunit/phpunit": "^8.5 || ^12.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Inflector\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                }
+            ],
+            "description": "PHP Doctrine Inflector is a small library that can perform string manipulations with regard to upper/lowercase and singular/plural forms of words.",
+            "homepage": "https://www.doctrine-project.org/projects/inflector.html",
+            "keywords": [
+                "inflection",
+                "inflector",
+                "lowercase",
+                "manipulation",
+                "php",
+                "plural",
+                "singular",
+                "strings",
+                "uppercase",
+                "words"
+            ],
+            "support": {
+                "issues": "https://github.com/doctrine/inflector/issues",
+                "source": "https://github.com/doctrine/inflector/tree/2.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Finflector",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2025-08-10T19:31:58+00:00"
         },
         {
             "name": "firebase/php-jwt",
@@ -1101,6 +1191,773 @@
             "time": "2026-06-23T15:21:08+00:00"
         },
         {
+            "name": "http-interop/http-factory-guzzle",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/http-interop/http-factory-guzzle.git",
+                "reference": "c2c859ceb05c3f42e710b60555f4c35b6a4a3995"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/http-interop/http-factory-guzzle/zipball/c2c859ceb05c3f42e710b60555f4c35b6a4a3995",
+                "reference": "c2c859ceb05c3f42e710b60555f4c35b6a4a3995",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/psr7": "^1.7||^2.0",
+                "php": ">=7.3",
+                "psr/http-factory": "^1.0"
+            },
+            "provide": {
+                "psr/http-factory-implementation": "^1.0"
+            },
+            "require-dev": {
+                "http-interop/http-factory-tests": "^0.9",
+                "phpunit/phpunit": "^9.5"
+            },
+            "suggest": {
+                "guzzlehttp/psr7": "Includes an HTTP factory starting in version 2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Http\\Factory\\Guzzle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "An HTTP Factory using Guzzle PSR7",
+            "keywords": [
+                "factory",
+                "http",
+                "psr-17",
+                "psr-7"
+            ],
+            "support": {
+                "issues": "https://github.com/http-interop/http-factory-guzzle/issues",
+                "source": "https://github.com/http-interop/http-factory-guzzle/tree/1.2.1"
+            },
+            "time": "2025-12-15T11:28:16+00:00"
+        },
+        {
+            "name": "monkeyscloud/monkeyslegion-cache",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MonkeysCloud/MonkeysLegion-Cache.git",
+                "reference": "cbfb826b9b473a9c4890eb5ab15957bf3c480fb5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MonkeysCloud/MonkeysLegion-Cache/zipball/cbfb826b9b473a9c4890eb5ab15957bf3c480fb5",
+                "reference": "cbfb826b9b473a9c4890eb5ab15957bf3c480fb5",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.4",
+                "psr/log": "^3.0",
+                "psr/simple-cache": "^3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^11.0"
+            },
+            "suggest": {
+                "ext-igbinary": "For igbinary serialization (30-50% smaller payloads)",
+                "ext-memcached": "Required to use Memcached cache driver",
+                "ext-redis": "Required to use Redis cache driver and distributed locks",
+                "ext-sodium": "Required for encrypted cache serialization (GDPR/PCI)",
+                "monkeyscloud/monkeyslegion-mlc": "For .mlc configuration file support with environment variables"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-2.1": "2.1.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "MonkeysLegion\\Cache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "MonkeysCloud",
+                    "email": "jorge@monkeyscloud.com"
+                }
+            ],
+            "description": "High-performance cache package for MonkeysLegion Framework with multiple drivers, atomic locks, encrypted serialization, and tiered caching",
+            "support": {
+                "issues": "https://github.com/MonkeysCloud/MonkeysLegion-Cache/issues",
+                "source": "https://github.com/MonkeysCloud/MonkeysLegion-Cache/tree/2.0.0"
+            },
+            "time": "2026-04-12T04:30:50+00:00"
+        },
+        {
+            "name": "monkeyscloud/monkeyslegion-cli",
+            "version": "2.0.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MonkeysCloud/MonkeysLegion-Cli.git",
+                "reference": "6841e839ac54316bbe103aee11a0c1c3c34f8728"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MonkeysCloud/MonkeysLegion-Cli/zipball/6841e839ac54316bbe103aee11a0c1c3c34f8728",
+                "reference": "6841e839ac54316bbe103aee11a0c1c3c34f8728",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/inflector": "^2.0",
+                "ext-ctype": "*",
+                "ext-pdo": "*",
+                "ext-readline": "*",
+                "monkeyscloud/monkeyslegion-core": "^2.0",
+                "monkeyscloud/monkeyslegion-database": "^2.0",
+                "monkeyscloud/monkeyslegion-di": "^2.0",
+                "monkeyscloud/monkeyslegion-entity": "^2.0",
+                "monkeyscloud/monkeyslegion-migration": "^2.0",
+                "monkeyscloud/monkeyslegion-openapi": "^1.0",
+                "nikic/php-parser": "^5.5",
+                "php": "^8.4"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": "^11.0"
+            },
+            "bin": [
+                "bin/ml"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.0.x-dev",
+                    "dev-2.x-dev": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MonkeysLegion\\Cli\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "MonkeysCloud",
+                    "email": "jorge@monkeys.cloud"
+                }
+            ],
+            "description": "Full-featured CLI framework for MonkeysLegion — code generation, migrations, environment tools, and interactive developer console.",
+            "keywords": [
+                "artisan",
+                "cli",
+                "code-generation",
+                "console",
+                "migration",
+                "monkeyslegion"
+            ],
+            "support": {
+                "issues": "https://github.com/MonkeysCloud/MonkeysLegion-Cli/issues",
+                "source": "https://github.com/MonkeysCloud/MonkeysLegion-Cli/tree/2.0.10"
+            },
+            "time": "2026-06-23T03:41:05+00:00"
+        },
+        {
+            "name": "monkeyscloud/monkeyslegion-core",
+            "version": "2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MonkeysCloud/MonkeysLegion-Core.git",
+                "reference": "082b113ee1e62489d66cc3e2272e3cd69827eb22"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MonkeysCloud/MonkeysLegion-Core/zipball/082b113ee1e62489d66cc3e2272e3cd69827eb22",
+                "reference": "082b113ee1e62489d66cc3e2272e3cd69827eb22",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.4",
+                "psr/clock": "^1.0",
+                "psr/container": "^2.0",
+                "psr/log": "^3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^11.0",
+                "squizlabs/php_codesniffer": "^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-2.0.0": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/Support/helpers.php"
+                ],
+                "psr-4": {
+                    "MonkeysLegion\\Core\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "High-performance framework kernel with typed config, service providers, pipeline, and PHP 8.4 primitives for the MonkeysLegion framework.",
+            "support": {
+                "issues": "https://github.com/MonkeysCloud/MonkeysLegion-Core/issues",
+                "source": "https://github.com/MonkeysCloud/MonkeysLegion-Core/tree/2.0.3"
+            },
+            "time": "2026-04-29T22:55:24+00:00"
+        },
+        {
+            "name": "monkeyscloud/monkeyslegion-database",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MonkeysCloud/MonkeysLegion-Database.git",
+                "reference": "5b170bd754a30be9930160fcceb3f19b4adb42a2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MonkeysCloud/MonkeysLegion-Database/zipball/5b170bd754a30be9930160fcceb3f19b4adb42a2",
+                "reference": "5b170bd754a30be9930160fcceb3f19b4adb42a2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pdo": "*",
+                "monkeyscloud/monkeyslegion-cache": "^2.0",
+                "monkeyscloud/monkeyslegion-cli": "^2.0",
+                "php": "^8.4",
+                "psr/log": "^3.0",
+                "psr/simple-cache": "^3.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": "^12.3"
+            },
+            "suggest": {
+                "ext-pdo_mysql": "Required for MySQL/MariaDB connections",
+                "ext-pdo_pgsql": "Required for PostgreSQL connections",
+                "ext-pdo_sqlite": "Required for SQLite connections",
+                "monkeyscloud/monkeyslegion-cache": "For advanced caching features (CacheManagerBridge)"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MonkeysLegion\\Database\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "MonkeysCloud",
+                    "email": "jorge@monkeys.cloud"
+                }
+            ],
+            "description": "High-performance PDO connection management with read/write splitting, connection pooling, and multi-driver support (MySQL, PostgreSQL, SQLite).",
+            "support": {
+                "issues": "https://github.com/MonkeysCloud/MonkeysLegion-Database/issues",
+                "source": "https://github.com/MonkeysCloud/MonkeysLegion-Database/tree/2.1.0"
+            },
+            "time": "2026-06-16T11:43:59+00:00"
+        },
+        {
+            "name": "monkeyscloud/monkeyslegion-di",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MonkeysCloud/MonkeysLegion-Di.git",
+                "reference": "cb31f1ef78551e87d0c911556cc4a4286bfd2358"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MonkeysCloud/MonkeysLegion-Di/zipball/cb31f1ef78551e87d0c911556cc4a4286bfd2358",
+                "reference": "cb31f1ef78551e87d0c911556cc4a4286bfd2358",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.4",
+                "psr/container": "^2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^11.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MonkeysLegion\\DI\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Production-ready PSR-11 container for MonkeysLegion — auto-wiring, attributes, compiled container.",
+            "support": {
+                "issues": "https://github.com/MonkeysCloud/MonkeysLegion-Di/issues",
+                "source": "https://github.com/MonkeysCloud/MonkeysLegion-Di/tree/2.0.0"
+            },
+            "time": "2026-04-10T23:38:22+00:00"
+        },
+        {
+            "name": "monkeyscloud/monkeyslegion-entity",
+            "version": "2.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MonkeysCloud/MonkeysLegion-Entity.git",
+                "reference": "10852abbacfb831a34fd1859ae37e8f891febdba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MonkeysCloud/MonkeysLegion-Entity/zipball/10852abbacfb831a34fd1859ae37e8f891febdba",
+                "reference": "10852abbacfb831a34fd1859ae37e8f891febdba",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.4",
+                "psr/container": "^2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.0.x-dev",
+                    "dev-2.x-dev": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MonkeysLegion\\Entity\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Attribute-based data-mapper, entity scanner, hydration, and metadata layer for MonkeysLegion v2.",
+            "support": {
+                "issues": "https://github.com/MonkeysCloud/MonkeysLegion-Entity/issues",
+                "source": "https://github.com/MonkeysCloud/MonkeysLegion-Entity/tree/2.0.7"
+            },
+            "time": "2026-05-09T03:17:13+00:00"
+        },
+        {
+            "name": "monkeyscloud/monkeyslegion-http",
+            "version": "2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MonkeysCloud/MonkeysLegion-Http.git",
+                "reference": "059700a7e53d4701e966a1f91aaae6d8e0b736d4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MonkeysCloud/MonkeysLegion-Http/zipball/059700a7e53d4701e966a1f91aaae6d8e0b736d4",
+                "reference": "059700a7e53d4701e966a1f91aaae6d8e0b736d4",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/psr7": "^2.7",
+                "http-interop/http-factory-guzzle": "^1.2",
+                "monkeyscloud/monkeyslegion-core": "^2.0",
+                "monkeyscloud/monkeyslegion-logger": "^2.0",
+                "monkeyscloud/monkeyslegion-session": "^2.0",
+                "monkeyscloud/monkeyslegion-template": "^2.0",
+                "php": "^8.4",
+                "psr/http-factory": "^1.1",
+                "psr/http-message": "^2.0",
+                "psr/http-server-handler": "^1.0",
+                "psr/http-server-middleware": "^1.0",
+                "psr/simple-cache": "^3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^11.0",
+                "psr/log": "^3.0"
+            },
+            "suggest": {
+                "psr/log": "^3.0 — Required for ErrorHandler PSR-3 logging"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-2.x-dev": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/Support/helpers.php"
+                ],
+                "psr-4": {
+                    "MonkeysLegion\\Http\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "High-performance PSR-7/PSR-15 HTTP message implementations, middleware, and SAPI emitter for the MonkeysLegion framework.",
+            "support": {
+                "issues": "https://github.com/MonkeysCloud/MonkeysLegion-Http/issues",
+                "source": "https://github.com/MonkeysCloud/MonkeysLegion-Http/tree/2.1.1"
+            },
+            "time": "2026-05-21T19:01:15+00:00"
+        },
+        {
+            "name": "monkeyscloud/monkeyslegion-logger",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MonkeysCloud/MonkeysLegion-Logger.git",
+                "reference": "3845dc4f34ac2f38eca1723565a17b46c37467bc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MonkeysCloud/MonkeysLegion-Logger/zipball/3845dc4f34ac2f38eca1723565a17b46c37467bc",
+                "reference": "3845dc4f34ac2f38eca1723565a17b46c37467bc",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.4",
+                "psr/log": "^3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MonkeysLegion\\Logger\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "MonkeysCloud",
+                    "email": "jorge@monkeys.cloud"
+                }
+            ],
+            "description": "High-performance, zero-dependency PSR-3 logger for MonkeysLegion with structured logging, handlers, processors, and PHP 8.4 features.",
+            "keywords": [
+                "logger",
+                "logging",
+                "monkeyslegion",
+                "psr-3",
+                "structured-logging"
+            ],
+            "support": {
+                "issues": "https://github.com/MonkeysCloud/MonkeysLegion-Logger/issues",
+                "source": "https://github.com/MonkeysCloud/MonkeysLegion-Logger/tree/2.0.0"
+            },
+            "time": "2026-04-11T03:08:24+00:00"
+        },
+        {
+            "name": "monkeyscloud/monkeyslegion-migration",
+            "version": "2.0.13",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MonkeysCloud/MonkeysLegion-Migration.git",
+                "reference": "79cc5f47c57a205be5aa3d445251c5c7ecb1e5e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MonkeysCloud/MonkeysLegion-Migration/zipball/79cc5f47c57a205be5aa3d445251c5c7ecb1e5e3",
+                "reference": "79cc5f47c57a205be5aa3d445251c5c7ecb1e5e3",
+                "shasum": ""
+            },
+            "require": {
+                "monkeyscloud/monkeyslegion-core": "^2.0",
+                "monkeyscloud/monkeyslegion-database": "^2.0",
+                "monkeyscloud/monkeyslegion-di": "^2.0",
+                "monkeyscloud/monkeyslegion-entity": "^2.0",
+                "php": "^8.4"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^11.0",
+                "squizlabs/php_codesniffer": "^3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MonkeysLegion\\Migration\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Entity-schema diff engine, SQL migration runner, and dialect-aware DDL generation for MonkeysLegion v2.",
+            "support": {
+                "issues": "https://github.com/MonkeysCloud/MonkeysLegion-Migration/issues",
+                "source": "https://github.com/MonkeysCloud/MonkeysLegion-Migration/tree/2.0.13"
+            },
+            "time": "2026-06-24T03:42:04+00:00"
+        },
+        {
+            "name": "monkeyscloud/monkeyslegion-openapi",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MonkeysCloud/MonkeysLegion-OpenApi.git",
+                "reference": "0dbc805179900c27b56e1d09873c543f252072a1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MonkeysCloud/MonkeysLegion-OpenApi/zipball/0dbc805179900c27b56e1d09873c543f252072a1",
+                "reference": "0dbc805179900c27b56e1d09873c543f252072a1",
+                "shasum": ""
+            },
+            "require": {
+                "monkeyscloud/monkeyslegion-http": "^2.0 || dev-2.x-dev as 1.99.x-dev",
+                "monkeyscloud/monkeyslegion-router": "^2.0 || dev-main",
+                "php": "^8.4",
+                "psr/http-message": "^2.0",
+                "psr/http-server-middleware": "^1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MonkeysLegion\\OpenApi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "MonkeysCloud",
+                    "email": "jorge@monkeys.cloud"
+                }
+            ],
+            "description": "Automatic OpenAPI 3.1 specification generator and Swagger UI middleware for the MonkeysLegion framework.",
+            "keywords": [
+                "api-docs",
+                "documentation",
+                "monkeyslegion",
+                "openapi",
+                "swagger"
+            ],
+            "support": {
+                "issues": "https://github.com/MonkeysCloud/MonkeysLegion-OpenApi/issues",
+                "source": "https://github.com/MonkeysCloud/MonkeysLegion-OpenApi/tree/1.0.0"
+            },
+            "time": "2026-04-10T21:18:26+00:00"
+        },
+        {
+            "name": "monkeyscloud/monkeyslegion-router",
+            "version": "2.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MonkeysCloud/MonkeysLegion-Router.git",
+                "reference": "8aa1e02d98a6f384d0e88e7b10897c3e9d108414"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MonkeysCloud/MonkeysLegion-Router/zipball/8aa1e02d98a6f384d0e88e7b10897c3e9d108414",
+                "reference": "8aa1e02d98a6f384d0e88e7b10897c3e9d108414",
+                "shasum": ""
+            },
+            "require": {
+                "monkeyscloud/monkeyslegion-http": "^2.0",
+                "php": "^8.4",
+                "psr/container": "^2.0",
+                "psr/http-message": "^2.0",
+                "psr/http-server-handler": "^1.0",
+                "psr/http-server-middleware": "^1.0",
+                "psr/log": "^3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^11.0"
+            },
+            "suggest": {
+                "monkeyscloud/monkeyslegion-cli": "For command-line route caching and management."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "2.0.x-dev",
+                    "dev-2.x-dev": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MonkeysLegion\\Router\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "MonkeysCloud",
+                    "email": "jorge@monkeys.cloud"
+                }
+            ],
+            "description": "High-performance attribute-driven HTTP router for MonkeysLegion with compiled trie matching, PSR-15 middleware, and route model binding.",
+            "keywords": [
+                "attributes",
+                "http",
+                "middleware",
+                "monkeyslegion",
+                "psr-15",
+                "psr-7",
+                "router",
+                "routing"
+            ],
+            "support": {
+                "issues": "https://github.com/MonkeysCloud/MonkeysLegion-Router/issues",
+                "source": "https://github.com/MonkeysCloud/MonkeysLegion-Router/tree/2.1.5"
+            },
+            "time": "2026-05-25T11:33:52+00:00"
+        },
+        {
+            "name": "monkeyscloud/monkeyslegion-session",
+            "version": "2.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MonkeysCloud/MonkeysLegion-Session.git",
+                "reference": "b4c88b38ca99d640aa1e68319e1509c263824e72"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MonkeysCloud/MonkeysLegion-Session/zipball/b4c88b38ca99d640aa1e68319e1509c263824e72",
+                "reference": "b4c88b38ca99d640aa1e68319e1509c263824e72",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.4",
+                "psr/http-message": "^2.0",
+                "psr/http-server-handler": "^1.0",
+                "psr/http-server-middleware": "^1.0"
+            },
+            "require-dev": {
+                "monkeyscloud/monkeyslegion-mlc": "^3.0@dev",
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": "^13.1@dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MonkeysLegion\\Session\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "support": {
+                "issues": "https://github.com/MonkeysCloud/MonkeysLegion-Session/issues",
+                "source": "https://github.com/MonkeysCloud/MonkeysLegion-Session/tree/2.0.7"
+            },
+            "time": "2026-06-17T11:32:38+00:00"
+        },
+        {
+            "name": "monkeyscloud/monkeyslegion-template",
+            "version": "2.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MonkeysCloud/MonkeysLegion-Template.git",
+                "reference": "7a84f68e9394d0040ae1152c9f7c61bd2654b9e5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MonkeysCloud/MonkeysLegion-Template/zipball/7a84f68e9394d0040ae1152c9f7c61bd2654b9e5",
+                "reference": "7a84f68e9394d0040ae1152c9f7c61bd2654b9e5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": "^8.4"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^11.5",
+                "psr/http-message": "^2.0",
+                "psr/simple-cache": "^3.0",
+                "squizlabs/php_codesniffer": "^3.11"
+            },
+            "suggest": {
+                "monkeyscloud/monkeyslegion-cache": "Full-featured template caching with tags, locks, and stats (^2.0)",
+                "monkeyscloud/monkeyslegion-cli": "Required for view:compile and lint CLI commands (^2.0)",
+                "monkeyscloud/monkeyslegion-di": "Required for class-based component dependency injection (^2.0)",
+                "psr/http-message": "Required for HTMX @fragment directive support (^2.0)",
+                "psr/simple-cache": "For PSR-16 compiled template caching via Redis/Memcached (^3.0)"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MonkeysLegion\\Template\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "MLView – the MonkeysLegion template engine with components, slots, and caching",
+            "support": {
+                "issues": "https://github.com/MonkeysCloud/MonkeysLegion-Template/issues",
+                "source": "https://github.com/MonkeysCloud/MonkeysLegion-Template/tree/2.0.7"
+            },
+            "time": "2026-05-03T20:29:02+00:00"
+        },
+        {
             "name": "monolog/monolog",
             "version": "3.10.0",
             "source": {
@@ -1270,6 +2127,64 @@
             "time": "2026-06-11T10:43:56+00:00"
         },
         {
+            "name": "nikic/php-parser",
+            "version": "v5.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikic/PHP-Parser.git",
+                "reference": "dca41cd15c2ac9d055ad70dbfd011130757d1f82"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/dca41cd15c2ac9d055ad70dbfd011130757d1f82",
+                "reference": "dca41cd15c2ac9d055ad70dbfd011130757d1f82",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ctype": "*",
+                "ext-json": "*",
+                "ext-tokenizer": "*",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "ircmaxell/php-yacc": "^0.0.7",
+                "phpunit/phpunit": "^9.0"
+            },
+            "bin": [
+                "bin/php-parse"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpParser\\": "lib/PhpParser"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nikita Popov"
+                }
+            ],
+            "description": "A PHP parser written in PHP",
+            "keywords": [
+                "parser",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/nikic/PHP-Parser/issues",
+                "source": "https://github.com/nikic/PHP-Parser/tree/v5.7.0"
+            },
+            "time": "2025-12-06T11:56:16+00:00"
+        },
+        {
             "name": "psr/cache",
             "version": "3.0.0",
             "source": {
@@ -1317,6 +2232,107 @@
                 "source": "https://github.com/php-fig/cache/tree/3.0.0"
             },
             "time": "2021-02-03T23:26:27+00:00"
+        },
+        {
+            "name": "psr/clock",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/clock.git",
+                "reference": "e41a24703d4560fd0acb709162f73b8adfc3aa0d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/clock/zipball/e41a24703d4560fd0acb709162f73b8adfc3aa0d",
+                "reference": "e41a24703d4560fd0acb709162f73b8adfc3aa0d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0 || ^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Clock\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for reading the clock.",
+            "homepage": "https://github.com/php-fig/clock",
+            "keywords": [
+                "clock",
+                "now",
+                "psr",
+                "psr-20",
+                "time"
+            ],
+            "support": {
+                "issues": "https://github.com/php-fig/clock/issues",
+                "source": "https://github.com/php-fig/clock/tree/1.0.0"
+            },
+            "time": "2022-11-25T14:36:26+00:00"
+        },
+        {
+            "name": "psr/container",
+            "version": "2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/container.git",
+                "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/c71ecc56dfe541dbd90c5360474fbc405f8d5963",
+                "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common Container Interface (PHP FIG PSR-11)",
+            "homepage": "https://github.com/php-fig/container",
+            "keywords": [
+                "PSR-11",
+                "container",
+                "container-interface",
+                "container-interop",
+                "psr"
+            ],
+            "support": {
+                "issues": "https://github.com/php-fig/container/issues",
+                "source": "https://github.com/php-fig/container/tree/2.0.2"
+            },
+            "time": "2021-11-05T16:47:00+00:00"
         },
         {
             "name": "psr/http-client",
@@ -1479,6 +2495,119 @@
             "time": "2023-04-04T09:54:51+00:00"
         },
         {
+            "name": "psr/http-server-handler",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-server-handler.git",
+                "reference": "84c4fb66179be4caaf8e97bd239203245302e7d4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-server-handler/zipball/84c4fb66179be4caaf8e97bd239203245302e7d4",
+                "reference": "84c4fb66179be4caaf8e97bd239203245302e7d4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0",
+                "psr/http-message": "^1.0 || ^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Server\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP server-side request handler",
+            "keywords": [
+                "handler",
+                "http",
+                "http-interop",
+                "psr",
+                "psr-15",
+                "psr-7",
+                "request",
+                "response",
+                "server"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/http-server-handler/tree/1.0.2"
+            },
+            "time": "2023-04-10T20:06:20+00:00"
+        },
+        {
+            "name": "psr/http-server-middleware",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-server-middleware.git",
+                "reference": "c1481f747daaa6a0782775cd6a8c26a1bf4a3829"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-server-middleware/zipball/c1481f747daaa6a0782775cd6a8c26a1bf4a3829",
+                "reference": "c1481f747daaa6a0782775cd6a8c26a1bf4a3829",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0",
+                "psr/http-message": "^1.0 || ^2.0",
+                "psr/http-server-handler": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Server\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP server-side middleware",
+            "keywords": [
+                "http",
+                "http-interop",
+                "middleware",
+                "psr",
+                "psr-15",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "support": {
+                "issues": "https://github.com/php-fig/http-server-middleware/issues",
+                "source": "https://github.com/php-fig/http-server-middleware/tree/1.0.2"
+            },
+            "time": "2023-04-11T06:14:47+00:00"
+        },
+        {
             "name": "psr/log",
             "version": "3.0.2",
             "source": {
@@ -1527,6 +2656,57 @@
                 "source": "https://github.com/php-fig/log/tree/3.0.2"
             },
             "time": "2024-09-11T13:17:53+00:00"
+        },
+        {
+            "name": "psr/simple-cache",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/simple-cache.git",
+                "reference": "764e0b3939f5ca87cb904f570ef9be2d78a07865"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/764e0b3939f5ca87cb904f570ef9be2d78a07865",
+                "reference": "764e0b3939f5ca87cb904f570ef9be2d78a07865",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\SimpleCache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interfaces for simple caching",
+            "keywords": [
+                "cache",
+                "caching",
+                "psr",
+                "psr-16",
+                "simple-cache"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/simple-cache/tree/3.0.0"
+            },
+            "time": "2021-10-29T13:26:27+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -2245,64 +3425,6 @@
                 }
             ],
             "time": "2025-08-01T08:46:24+00:00"
-        },
-        {
-            "name": "nikic/php-parser",
-            "version": "v5.7.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "dca41cd15c2ac9d055ad70dbfd011130757d1f82"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/dca41cd15c2ac9d055ad70dbfd011130757d1f82",
-                "reference": "dca41cd15c2ac9d055ad70dbfd011130757d1f82",
-                "shasum": ""
-            },
-            "require": {
-                "ext-ctype": "*",
-                "ext-json": "*",
-                "ext-tokenizer": "*",
-                "php": ">=7.4"
-            },
-            "require-dev": {
-                "ircmaxell/php-yacc": "^0.0.7",
-                "phpunit/phpunit": "^9.0"
-            },
-            "bin": [
-                "bin/php-parse"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "5.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "PhpParser\\": "lib/PhpParser"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Nikita Popov"
-                }
-            ],
-            "description": "A PHP parser written in PHP",
-            "keywords": [
-                "parser",
-                "php"
-            ],
-            "support": {
-                "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v5.7.0"
-            },
-            "time": "2025-12-06T11:56:16+00:00"
         },
         {
             "name": "phar-io/manifest",
