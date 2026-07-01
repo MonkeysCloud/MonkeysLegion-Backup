@@ -3,12 +3,12 @@
 This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0).
 
 > [!NOTE]
-> This is a greenfield project. Currently, 10 out of 16 tasks are completed.
+> This is a greenfield project. Currently, 11 out of 16 tasks are completed.
 
 ## 📊 Progress Summary
 
-- **Total Progress:** 62% (10/16 Tasks)
-- **Estimated Effort Remaining:** ~3.5 developer-days
+- **Total Progress:** 69% (11/16 Tasks)
+- **Estimated Effort Remaining:** ~3 developer-days
 
 | Category | Tasks Completed | Progress |
 | :--- | :---: | :---: |
@@ -16,7 +16,7 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
 | **Engines** | 4 / 4 | 100% |
 | **Compression & Process** | 1 / 1 | 100% |
 | **Runners & Local Storage** | 2 / 2 | 100% |
-| **Adapter Packages** | 0 / 2 | 0% |
+| **Adapter Packages** | 1 / 2 | 50% |
 | **CLI & Release** | 0 / 4 | 0% |
 
 ---
@@ -122,12 +122,14 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
 
 ### 5. Optional Adapter Packages
 
-- [ ] **`[MB-11]` Package `storage-gcs`**
+- [x] **`[MB-11]` Package `storage-gcs`**
   - **Description:** Optional sub-package for GCS storage driver.
   - **Acceptance Criteria:**
-    - [ ] Integrates with Google Cloud Storage SDK.
+    - [x] Integrates with Google Cloud Storage SDK (`google/cloud-storage`).
+    - [x] Integration tested against `fake-gcs-server` via Docker (`docker-compose.testing.yml`).
+    - [x] Run with: `composer test:gcs` (requires container up).
   - **Depends on:** `[MB-03]`
-  - **Status:** ⏳ Pending
+  - **Status:** ✅ Completed
 
 - [ ] **`[MB-12]` Package `storage-s3`**
   - **Description:** Optional sub-package for S3 storage driver.
