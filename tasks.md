@@ -3,18 +3,18 @@
 This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0).
 
 > [!NOTE]
-> This is a greenfield project. Currently, 7 out of 16 tasks are completed.
+> This is a greenfield project. Currently, 8 out of 16 tasks are completed.
 
 ## 📊 Progress Summary
 
-- **Total Progress:** 44% (7/16 Tasks)
-- **Estimated Effort Remaining:** ~5 developer-days
+- **Total Progress:** 50% (8/16 Tasks)
+- **Estimated Effort Remaining:** ~4.5 developer-days
 
 | Category | Tasks Completed | Progress |
 | :--- | :---: | :---: |
 | **Foundation** | 3 / 3 | 100% |
 | **Engines** | 4 / 4 | 100% |
-| **Compression & Process** | 0 / 1 | 0% |
+| **Compression & Process** | 1 / 1 | 100% |
 | **Runners & Local Storage** | 0 / 2 | 0% |
 | **Adapter Packages** | 0 / 2 | 0% |
 | **CLI & Release** | 0 / 4 | 0% |
@@ -90,13 +90,13 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
 
 ### 3. Compression & Process
 
-- [ ] **`[MB-08]` GzipCompressor + ProcessRunner**
+- [x] **`[MB-08]` GzipCompressor + ProcessRunner**
   - **Description:** Gzip compression utility and secure `ProcessRunner` using PHP `proc_open`.
   - **Acceptance Criteria:**
-    - [ ] `ProcessRunner` handles timeouts, env injection, stderr merge, and secret redaction.
-    - [ ] No shell injection vulnerability (argv array only).
+    - [x] `ProcessRunner` handles timeouts, env injection, stderr merge, and secret redaction.
+    - [x] No shell injection vulnerability (argv array only).
   - **Depends on:** `[MB-02]`
-  - **Status:** ⏳ Pending
+  - **Status:** ✅ Completed
 
 ---
 
