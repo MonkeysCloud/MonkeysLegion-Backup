@@ -3,17 +3,17 @@
 This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0).
 
 > [!NOTE]
-> This is a greenfield project. Currently, 4 out of 16 tasks are completed.
+> This is a greenfield project. Currently, 5 out of 16 tasks are completed.
 
 ## 📊 Progress Summary
 
-- **Total Progress:** 25% (4/16 Tasks)
-- **Estimated Effort Remaining:** ~7 developer-days
+- **Total Progress:** 31% (5/16 Tasks)
+- **Estimated Effort Remaining:** ~6 developer-days
 
 | Category | Tasks Completed | Progress |
 | :--- | :---: | :---: |
 | **Foundation** | 3 / 3 | 100% |
-| **Engines** | 1 / 4 | 25% |
+| **Engines** | 2 / 4 | 50% |
 | **Compression & Process** | 0 / 1 | 0% |
 | **Runners & Local Storage** | 0 / 2 | 0% |
 | **Adapter Packages** | 0 / 2 | 0% |
@@ -60,12 +60,12 @@ This board tracks the implementation tasks for **MonkeysLegion-Backup** (v1.0.0)
   - **Depends on:** `[MB-02]`
   - **Status:** ✅ Completed
 
-- [ ] **`[MB-05]` PostgreSQL engine**
+- [x] **`[MB-05]` PostgreSQL engine**
   - **Description:** Implement PostgreSQL engine wrapping `pg_dump` and `psql` / `pg_restore`.
   - **Acceptance Criteria:**
-    - [ ] Supports plain SQL and custom (`-Fc`) formats.
+    - [x] Supports plain SQL and custom (`-Fc`) formats.
   - **Depends on:** `[MB-02]`
-  - **Status:** ⏳ Pending
+  - **Status:** ✅ Completed
 
 - [ ] **`[MB-06]` MongoDB, Redis, SQLite engines**
   - **Description:** Implement MongoDB (`mongodump --archive`), Redis (`redis-cli --rdb`), and SQLite (file copy) engines.
