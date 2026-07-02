@@ -6,7 +6,7 @@ namespace MonkeysLegion\Backup\Cli\Command;
 
 use MonkeysLegion\Cli\Console\Attributes\Command as CliCommand;
 
-#[CliCommand('install', 'Publish the backup configuration file into your application')]
+#[CliCommand('backup:install', 'Publish the backup configuration file into your application')]
 final class InstallCommand extends BaseCommand
 {
     protected function handle(): int

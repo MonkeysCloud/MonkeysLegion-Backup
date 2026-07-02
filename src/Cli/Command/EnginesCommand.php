@@ -7,7 +7,7 @@ namespace MonkeysLegion\Backup\Cli\Command;
 use MonkeysLegion\Cli\Console\Attributes\Command as CliCommand;
 use MonkeysLegion\Backup\Engine\EngineRegistry;
 
-#[CliCommand('engines', 'List all registered backup engines')]
+#[CliCommand('backup:engines', 'List all registered backup engines')]
 final class EnginesCommand extends BaseCommand
 {
     protected function handle(): int

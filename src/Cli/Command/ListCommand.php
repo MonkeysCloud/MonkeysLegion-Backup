@@ -7,7 +7,7 @@ namespace MonkeysLegion\Backup\Cli\Command;
 use MonkeysLegion\Cli\Console\Attributes\Command as CliCommand;
 use MonkeysLegion\Backup\Contract\StorageAdapterInterface;
 
-#[CliCommand('list', 'List all database backups stored in the storage backend')]
+#[CliCommand('backup:list', 'List all database backups stored in the storage backend')]
 final class ListCommand extends BaseCommand
 {
     protected function handle(): int

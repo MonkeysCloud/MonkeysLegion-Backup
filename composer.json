@@ -1,6 +1,6 @@
 {
     "name": "monkeyscloud/monkeyslegion-backup",
-    "description": "Framework-agnostic database backup and restore library for PHP 8.4+. Supports MySQL, Postgres, MongoDB, Redis, SQLite, local filesystem, S3, and GCS.",
+    "description": "A PHP library and CLI for backing up and restoring databases to local disk, S3, or GCS.",
     "type": "library",
     "keywords": ["backup", "restore", "database", "mysql", "postgres", "mongodb", "redis", "sqlite", "s3", "gcs", "cli"],
     "homepage": "https://github.com/monkeyscloud/MonkeysLegion-Backup",

@@ -9,7 +9,7 @@ use MonkeysLegion\Backup\ValueObject\DumpOptions;
 use MonkeysLegion\Backup\Runner\BackupRunner;
 use MonkeysLegion\Backup\Contract\LoggerInterface;
 
-#[CliCommand('dump', 'Dump a database and upload it to the storage backend')]
+#[CliCommand('backup:dump', 'Dump a database and upload it to the storage backend')]
 final class DumpCommand extends BaseCommand
 {
     protected function handle(): int

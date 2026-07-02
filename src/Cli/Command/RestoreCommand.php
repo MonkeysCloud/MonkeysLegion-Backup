@@ -9,7 +9,7 @@ use MonkeysLegion\Backup\ValueObject\RestoreOptions;
 use MonkeysLegion\Backup\Runner\RestoreRunner;
 use MonkeysLegion\Backup\Contract\LoggerInterface;
 
-#[CliCommand('restore', 'Restore a database from a backup stored in the storage backend')]
+#[CliCommand('backup:restore', 'Restore a database from a backup stored in the storage backend')]
 final class RestoreCommand extends BaseCommand
 {
     protected function handle(): int
