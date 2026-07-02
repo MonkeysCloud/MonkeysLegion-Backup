@@ -87,3 +87,35 @@ services:
     command: >
       psql -h postgres -U postgres -c "CREATE DATABASE mb_test_restore;"
     restart: "no"
+
+  mongodb:
+    image: mongo:7
+    container_name: mb_mongodb
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    container_name: mb_redis
+    ports:
+      - "6380:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 5s
+      retries: 15
+
+  redis-init:
+    image: redis:7-alpine
+    container_name: mb_redis_init
+    depends_on:
+      redis:
+        condition: service_healthy
+    command: >
+      redis-cli -h redis ACL SETUSER backupuser on ">analikayn" "~*" "+@all"
+    restart: "no"

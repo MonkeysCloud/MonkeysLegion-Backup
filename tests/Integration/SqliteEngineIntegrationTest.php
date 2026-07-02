@@ -7,8 +7,16 @@ namespace MonkeysLegion\Backup\Tests\Integration;
 use MonkeysLegion\Backup\Engine\SqliteEngine;
 use MonkeysLegion\Backup\ValueObject\DumpOptions;
 use MonkeysLegion\Backup\ValueObject\RestoreOptions;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Integration test for SqliteEngine (file-based; no Docker required).
+ *
+ * Run only this group:
+ *   vendor/bin/phpunit --group sqlite
+ */
+#[Group('sqlite')]
 final class SqliteEngineIntegrationTest extends TestCase
 {
     private SqliteEngine $engine;

@@ -7,12 +7,9 @@ on:
     branches: [ main ]
 
 jobs:
-  tests:
-    name: PHP ${{ matrix.php-version }} - Static Analysis & Tests
+  phpstan:
+    name: PHPStan
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php-version: ['8.4']
 
     steps:
       - name: Checkout code
@@ -21,7 +18,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-version }}
+          php-version: '8.4'
           extensions: json, zlib
           coverage: none
 
@@ -29,7 +26,38 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: Run PHPStan static analysis
-        run: vendor/bin/phpstan analyse
+        run: composer stan
 
-      - name: Run PHPUnit tests
-        run: vendor/bin/phpunit
+  tests:
+    name: PHPUnit (full suite)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Start test services
+        run: |
+          docker compose -f docker-compose.testing.yml up -d --wait \
+            fake-gcs minio mysql postgres mongodb redis
+          docker compose -f docker-compose.testing.yml up --no-deps \
+            mysql-init postgres-init redis-init
+
+      - name: Install database clients
+        run: bash .github/scripts/install-db-clients.sh
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: json, zlib, pdo_mysql, pdo_pgsql
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Configure test environment
+        run: cp .env.testing .env
+
+      - name: Run full PHPUnit suite
+        run: composer test:all

@@ -12,6 +12,7 @@ use MonkeysLegion\Backup\Storage\StorageAdapterFactory;
 use MonkeysLegion\Backup\ValueObject\DumpOptions;
 use MonkeysLegion\Backup\ValueObject\RestoreOptions;
 use MonkeysLegion\Backup\ValueObject\StorageConfig;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,15 +21,18 @@ use PHPUnit\Framework\TestCase;
  * Runs BackupRunner → LocalStorageAdapter → RestoreRunner against live MySQL
  * and Postgres containers (docker-compose.testing.yml).
  *
- * Skipped automatically when the corresponding host env-var is absent.
+ * Prerequisites (managed via docker-compose.testing.yml):
+ *   docker compose -f docker-compose.testing.yml up -d --wait
  *
  * Run:
  *   composer test:mysql   — MySQL pipeline only
  *   composer test:pgsql   — Postgres pipeline only
- *   composer test:db      — both
+ *   composer test:db      — all database engine + pipeline tests
  */
 final class BackupRunnerIntegrationTest extends TestCase
 {
+    use IntegrationEnv;
+
     private string $storageRoot;
 
     protected function setUp(): void
@@ -46,19 +50,15 @@ final class BackupRunnerIntegrationTest extends TestCase
     // MySQL — full pipeline
     // -------------------------------------------------------------------------
 
-    /**
-     * @group mysql
-     * @group db
-     */
+    #[Group('mysql')]
+    #[Group('db')]
     public function testMysqlFullPipeline(): void
     {
         $env = $this->loadEnv();
-        $host = $env['MYSQL_HOST'] ?? \getenv('MYSQL_HOST') ?: '';
-        if ($host === '') {
-            $this->markTestSkipped('MYSQL_HOST not set — skipping MySQL pipeline test.');
-        }
+        $host = $env['MYSQL_HOST'] ?? \getenv('MYSQL_HOST') ?: '127.0.0.1';
+        $port = (int) ($env['MYSQL_PORT'] ?? \getenv('MYSQL_PORT') ?: 3306);
+        $this->skipUnlessDockerServiceReachable('MySQL', $host, $port);
 
-        $port     = (int) ($env['MYSQL_PORT']           ?? \getenv('MYSQL_PORT')           ?: 3306);
         $user     = $env['MYSQL_USER']                  ?? \getenv('MYSQL_USER')           ?: 'root';
         $password = $env['MYSQL_PASSWORD']              ?? \getenv('MYSQL_PASSWORD')        ?: 'secret';
         $dumpDb   = $env['MYSQL_TEST_DB_DUMP']          ?? \getenv('MYSQL_TEST_DB_DUMP')   ?: 'mb_test_dump';
@@ -115,19 +115,15 @@ final class BackupRunnerIntegrationTest extends TestCase
     // Postgres — full pipeline
     // -------------------------------------------------------------------------
 
-    /**
-     * @group pgsql
-     * @group db
-     */
+    #[Group('pgsql')]
+    #[Group('db')]
     public function testPostgresFullPipeline(): void
     {
         $env = $this->loadEnv();
-        $host = $env['PGSQL_HOST'] ?? \getenv('PGSQL_HOST') ?: '';
-        if ($host === '') {
-            $this->markTestSkipped('PGSQL_HOST not set — skipping Postgres pipeline test.');
-        }
+        $host = $env['PGSQL_HOST'] ?? \getenv('PGSQL_HOST') ?: '127.0.0.1';
+        $port = (int) ($env['PGSQL_PORT'] ?? \getenv('PGSQL_PORT') ?: 5432);
+        $this->skipUnlessDockerServiceReachable('PostgreSQL', $host, $port);
 
-        $port      = (int) ($env['PGSQL_PORT']          ?? \getenv('PGSQL_PORT')            ?: 5432);
         $user      = $env['PGSQL_USER']                 ?? \getenv('PGSQL_USER')             ?: 'postgres';
         $password  = $env['PGSQL_PASSWORD']             ?? \getenv('PGSQL_PASSWORD')         ?: 'secret';
         $dumpDb    = $env['PGSQL_TEST_DB_DUMP']         ?? \getenv('PGSQL_TEST_DB_DUMP')     ?: 'mb_test_dump';
@@ -203,31 +199,6 @@ final class BackupRunnerIntegrationTest extends TestCase
         $restorer = new RestoreRunner($registry, $storage, $compressor);
 
         return [$runner, $restorer];
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    private function loadEnv(): array
-    {
-        $envFile = \dirname(__DIR__, 2) . '/.env';
-        if (!\is_readable($envFile)) {
-            return [];
-        }
-        $result = [];
-        $lines  = \file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        if ($lines === false) {
-            return [];
-        }
-        foreach ($lines as $line) {
-            $line = \trim($line);
-            if ($line === '' || $line[0] === '#') {
-                continue;
-            }
-            [$key, $val]     = \explode('=', $line, 2) + ['', ''];
-            $result[\trim($key)] = \trim($val);
-        }
-        return $result;
     }
 
     private function mysqlPdo(string $host, int $port, string $user, string $password, string $database): \PDO

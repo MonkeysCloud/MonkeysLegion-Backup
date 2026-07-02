@@ -7,12 +7,28 @@ namespace MonkeysLegion\Backup\Tests\Integration;
 use MonkeysLegion\Backup\Engine\RedisEngine;
 use MonkeysLegion\Backup\ValueObject\DumpOptions;
 use MonkeysLegion\Backup\ValueObject\RestoreOptions;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Integration test for RedisEngine against a live Redis instance.
+ *
+ * Prerequisites (managed via docker-compose.testing.yml):
+ *   docker compose -f docker-compose.testing.yml up -d --wait
+ *
+ * Run only this group:
+ *   vendor/bin/phpunit --group redis
+ */
+#[Group('redis')]
+#[Group('db')]
 final class RedisEngineIntegrationTest extends TestCase
 {
+    use IntegrationEnv;
+
     private string $host;
     private int    $port;
+    private string $authUser;
+    private string $authPassword;
     private RedisEngine $engine;
     private string $tempDir;
 
@@ -20,7 +36,11 @@ final class RedisEngineIntegrationTest extends TestCase
     {
         $env = $this->loadEnv();
         $this->host = $env['REDIS_HOST'] ?? '127.0.0.1';
-        $this->port = (int)($env['REDIS_PORT'] ?? 6379);
+        $this->port = (int)($env['REDIS_PORT'] ?? 6380);
+        $this->authUser = $env['REDIS_USER'] ?? 'backupuser';
+        $this->authPassword = $env['REDIS_PASSWORD'] ?? 'analikayn';
+
+        $this->skipUnlessDockerServiceReachable('Redis', $this->host, $this->port);
 
         $this->engine = new RedisEngine();
         $this->tempDir = \sys_get_temp_dir() . '/mb_redis_test';
@@ -46,10 +66,8 @@ final class RedisEngineIntegrationTest extends TestCase
 
     public function testPasswordlessDumpAndCopyRestore(): void
     {
-        // 1. Set a value in redis using redis-cli (no auth needed by default)
         \exec("redis-cli -h {$this->host} -p {$this->port} SET mb_test_key hello");
 
-        // 2. Dump
         $artifact = $this->engine->dump(new DumpOptions(
             engine: 'redis',
             host: $this->host,
@@ -60,7 +78,6 @@ final class RedisEngineIntegrationTest extends TestCase
         $this->assertFileExists($artifact->localPath);
         $this->assertGreaterThan(0, \filesize($artifact->localPath));
 
-        // 3. Restore to a dummy target path (since replacing server active RDB requires root/restart)
         $targetRdb = "{$this->tempDir}/restored_dump.rdb";
         $this->engine->restore(new RestoreOptions(
             engine: 'redis',
@@ -76,13 +93,16 @@ final class RedisEngineIntegrationTest extends TestCase
 
     public function testPasswordAuthenticatedDump(): void
     {
-        // 1. Dump using the backupuser ACL user and password 'analikayn'
+        if ($this->authUser === '' || $this->authPassword === '') {
+            $this->markTestSkipped('REDIS_USER and REDIS_PASSWORD must be set for authenticated dump test.');
+        }
+
         $artifact = $this->engine->dump(new DumpOptions(
             engine: 'redis',
             host: $this->host,
             port: $this->port,
-            user: 'backupuser',
-            password: 'analikayn',
+            user: $this->authUser,
+            password: $this->authPassword,
             database: 'mb_redis_auth'
         ));
 
@@ -90,37 +110,5 @@ final class RedisEngineIntegrationTest extends TestCase
         $this->assertGreaterThan(0, \filesize($artifact->localPath));
 
         \unlink($artifact->localPath);
-    }
-
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
-
-    /**
-     * @return array<string, string>
-     */
-    private function loadEnv(): array
-    {
-        $envFile = \dirname(__DIR__, 2) . '/.env';
-        if (!\is_readable($envFile)) {
-            return [];
-        }
-
-        $result = [];
-        $lines  = \file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        if ($lines === false) {
-            return [];
-        }
-
-        foreach ($lines as $line) {
-            $line = \trim($line);
-            if ($line === '' || $line[0] === '#') {
-                continue;
-            }
-            [$key, $val] = \explode('=', $line, 2) + ['', ''];
-            $result[\trim($key)] = \trim($val);
-        }
-
-        return $result;
     }
 }

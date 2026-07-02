@@ -44,8 +44,12 @@
         "test:s3":          "vendor/bin/phpunit --group s3",
         "test:mysql":       "vendor/bin/phpunit --group mysql",
         "test:pgsql":       "vendor/bin/phpunit --group pgsql",
+        "test:mongodb":     "vendor/bin/phpunit --group mongodb",
+        "test:redis":       "vendor/bin/phpunit --group redis",
+        "test:sqlite":      "vendor/bin/phpunit --group sqlite",
         "test:db":          "vendor/bin/phpunit --group db",
         "test:integration": "vendor/bin/phpunit --group gcs,s3,db",
-        "stan":             "vendor/bin/phpstan analyse"
+        "stan":             "vendor/bin/phpstan analyse",
+        "ci":               ["@stan", "@test:all"]
     }
 }

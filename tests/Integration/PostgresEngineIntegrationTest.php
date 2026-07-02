@@ -7,10 +7,24 @@ namespace MonkeysLegion\Backup\Tests\Integration;
 use MonkeysLegion\Backup\Engine\PostgresEngine;
 use MonkeysLegion\Backup\ValueObject\DumpOptions;
 use MonkeysLegion\Backup\ValueObject\RestoreOptions;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Integration test for PostgresEngine against a live PostgreSQL instance.
+ *
+ * Prerequisites (managed via docker-compose.testing.yml):
+ *   docker compose -f docker-compose.testing.yml up -d --wait
+ *
+ * Run only this group:
+ *   vendor/bin/phpunit --group pgsql
+ */
+#[Group('pgsql')]
+#[Group('db')]
 final class PostgresEngineIntegrationTest extends TestCase
 {
+    use IntegrationEnv;
+
     private string $host;
     private int    $port;
     private string $user;
@@ -23,20 +37,17 @@ final class PostgresEngineIntegrationTest extends TestCase
     {
         $env = $this->loadEnv();
 
-        $this->host     = $env['PGSQL_HOST']          ?? '127.0.0.1';
-        $this->port     = (int)($env['PGSQL_PORT']    ?? 5432);
-        $this->user     = $env['PGSQL_USER']          ?? 'postgres';
-        $this->password = $env['PGSQL_PASSWORD']      ?? 'analikayn';
-        $this->dumpDb   = $env['PGSQL_TEST_DB_DUMP']  ?? 'mb_test_dump';
-        $this->restoreDb= $env['PGSQL_TEST_DB_RESTORE']?? 'mb_test_restore';
+        $this->host     = $env['PGSQL_HOST']            ?? '127.0.0.1';
+        $this->port     = (int)($env['PGSQL_PORT']      ?? 5432);
+        $this->user     = $env['PGSQL_USER']            ?? 'postgres';
+        $this->password = $env['PGSQL_PASSWORD']        ?? 'secret';
+        $this->dumpDb   = $env['PGSQL_TEST_DB_DUMP']    ?? 'mb_test_dump';
+        $this->restoreDb= $env['PGSQL_TEST_DB_RESTORE'] ?? 'mb_test_restore';
 
-        if ($this->host === '') {
-            $this->markTestSkipped('PGSQL_HOST not set — skipping integration tests.');
-        }
+        $this->skipUnlessDockerServiceReachable('PostgreSQL', $this->host, $this->port);
 
         $this->engine = new PostgresEngine();
 
-        // Seed the dump database
         $this->execSql($this->dumpDb, "
             DROP TABLE IF EXISTS mb_test_posts;
             CREATE TABLE mb_test_posts (
@@ -46,7 +57,6 @@ final class PostgresEngineIntegrationTest extends TestCase
             INSERT INTO mb_test_posts (title) VALUES ('First Post'), ('Second Post');
         ");
 
-        // Clear the restore database
         $this->execSql($this->restoreDb, "
             DROP TABLE IF EXISTS mb_test_posts;
         ");
@@ -54,7 +64,6 @@ final class PostgresEngineIntegrationTest extends TestCase
 
     public function testPlainDumpAndRestoreRoundTrip(): void
     {
-        // 1. Dump to plain SQL
         $artifact = $this->engine->dump(new DumpOptions(
             engine: 'postgres',
             host: $this->host,
@@ -68,7 +77,6 @@ final class PostgresEngineIntegrationTest extends TestCase
         $this->assertFileExists($artifact->localPath);
         $this->assertStringEndsWith('.sql', $artifact->localPath);
 
-        // 2. Restore into target db
         $this->engine->restore(new RestoreOptions(
             engine: 'postgres',
             sourcePath: $artifact->localPath,
@@ -79,7 +87,6 @@ final class PostgresEngineIntegrationTest extends TestCase
             database: $this->restoreDb
         ));
 
-        // 3. Verify restore succeeded
         $rows = $this->fetchAll($this->restoreDb, 'SELECT title FROM mb_test_posts ORDER BY id');
         $titles = \array_column($rows, 'title');
 
@@ -90,7 +97,6 @@ final class PostgresEngineIntegrationTest extends TestCase
 
     public function testCustomFormatDumpAndRestoreRoundTrip(): void
     {
-        // 1. Dump to custom binary format (-Fc)
         $artifact = $this->engine->dump(new DumpOptions(
             engine: 'postgres',
             host: $this->host,
@@ -104,7 +110,6 @@ final class PostgresEngineIntegrationTest extends TestCase
         $this->assertFileExists($artifact->localPath);
         $this->assertStringEndsWith('.dump', $artifact->localPath);
 
-        // 2. Restore into target db using pg_restore
         $this->engine->restore(new RestoreOptions(
             engine: 'postgres',
             sourcePath: $artifact->localPath,
@@ -116,47 +121,12 @@ final class PostgresEngineIntegrationTest extends TestCase
             customOptions: ['--clean', '--if-exists']
         ));
 
-        // 3. Verify restore succeeded
         $rows = $this->fetchAll($this->restoreDb, 'SELECT title FROM mb_test_posts ORDER BY id');
         $titles = \array_column($rows, 'title');
 
         $this->assertSame(['First Post', 'Second Post'], $titles);
 
         \unlink($artifact->localPath);
-    }
-
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
-
-    /**
-     * Load key=value pairs from the project-root .env file.
-     *
-     * @return array<string, string>
-     */
-    private function loadEnv(): array
-    {
-        $envFile = \dirname(__DIR__, 2) . '/.env';
-        if (!\is_readable($envFile)) {
-            return [];
-        }
-
-        $result = [];
-        $lines  = \file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        if ($lines === false) {
-            return [];
-        }
-
-        foreach ($lines as $line) {
-            $line = \trim($line);
-            if ($line === '' || $line[0] === '#') {
-                continue;
-            }
-            [$key, $val] = \explode('=', $line, 2) + ['', ''];
-            $result[\trim($key)] = \trim($val);
-        }
-
-        return $result;
     }
 
     private function getPdo(string $database): \PDO

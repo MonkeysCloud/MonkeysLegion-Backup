@@ -7,19 +7,24 @@ namespace MonkeysLegion\Backup\Tests\Integration;
 use MonkeysLegion\Backup\Engine\MysqlEngine;
 use MonkeysLegion\Backup\ValueObject\DumpOptions;
 use MonkeysLegion\Backup\ValueObject\RestoreOptions;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Integration tests for MysqlEngine.
+ * Integration test for MysqlEngine against a live MySQL instance.
  *
- * Requires live MySQL access. Credentials are loaded from .env via setUp().
- * Only runs if MYSQL_HOST env variable is present.
+ * Prerequisites (managed via docker-compose.testing.yml):
+ *   docker compose -f docker-compose.testing.yml up -d --wait
  *
- * The test creates/uses dedicated test databases (mb_test_dump, mb_test_restore)
- * and never touches other databases.
+ * Run only this group:
+ *   vendor/bin/phpunit --group mysql
  */
+#[Group('mysql')]
+#[Group('db')]
 final class MysqlEngineIntegrationTest extends TestCase
 {
+    use IntegrationEnv;
+
     private string $host;
     private int    $port;
     private string $user;
@@ -32,20 +37,17 @@ final class MysqlEngineIntegrationTest extends TestCase
     {
         $env = $this->loadEnv();
 
-        $this->host     = $env['MYSQL_HOST']          ?? '127.0.0.1';
-        $this->port     = (int)($env['MYSQL_PORT']    ?? 3306);
-        $this->user     = $env['MYSQL_USER']          ?? 'root';
-        $this->password = $env['MYSQL_PASSWORD']      ?? '';
-        $this->dumpDb   = $env['MYSQL_TEST_DB_DUMP']  ?? 'mb_test_dump';
-        $this->restoreDb= $env['MYSQL_TEST_DB_RESTORE']?? 'mb_test_restore';
+        $this->host     = $env['MYSQL_HOST']           ?? '127.0.0.1';
+        $this->port     = (int)($env['MYSQL_PORT']     ?? 3306);
+        $this->user     = $env['MYSQL_USER']           ?? 'root';
+        $this->password = $env['MYSQL_PASSWORD']       ?? 'secret';
+        $this->dumpDb   = $env['MYSQL_TEST_DB_DUMP']   ?? 'mb_test_dump';
+        $this->restoreDb= $env['MYSQL_TEST_DB_RESTORE'] ?? 'mb_test_restore';
 
-        if ($this->host === '') {
-            $this->markTestSkipped('MYSQL_HOST not set — skipping integration tests.');
-        }
+        $this->skipUnlessDockerServiceReachable('MySQL', $this->host, $this->port);
 
         $this->engine = new MysqlEngine();
 
-        // Seed the dump database with a small test table
         $this->execSql($this->dumpDb, "
             DROP TABLE IF EXISTS mb_test_users;
             CREATE TABLE mb_test_users (
@@ -55,7 +57,6 @@ final class MysqlEngineIntegrationTest extends TestCase
             INSERT INTO mb_test_users (name) VALUES ('Alice'), ('Bob'), ('Charlie');
         ");
 
-        // Ensure the restore database is empty for a clean run
         $this->execSql($this->restoreDb, 'DROP TABLE IF EXISTS mb_test_users;');
     }
 
@@ -73,7 +74,6 @@ final class MysqlEngineIntegrationTest extends TestCase
         $this->assertFileExists($artifact->localPath);
         $this->assertGreaterThan(0, \filesize($artifact->localPath));
 
-        // SQL dump must contain the table DDL
         $content = \file_get_contents($artifact->localPath);
         $this->assertIsString($content);
         $this->assertStringContainsString('mb_test_users', $content);
@@ -83,7 +83,6 @@ final class MysqlEngineIntegrationTest extends TestCase
 
     public function testDumpAndRestoreRoundTrip(): void
     {
-        // 1. Dump source db
         $artifact = $this->engine->dump(new DumpOptions(
             engine: 'mysql',
             host: $this->host,
@@ -95,7 +94,6 @@ final class MysqlEngineIntegrationTest extends TestCase
 
         $this->assertFileExists($artifact->localPath);
 
-        // 2. Restore into target db
         $this->engine->restore(new RestoreOptions(
             engine: 'mysql',
             sourcePath: $artifact->localPath,
@@ -106,47 +104,12 @@ final class MysqlEngineIntegrationTest extends TestCase
             database: $this->restoreDb,
         ));
 
-        // 3. Assert restored rows
         $rows = $this->fetchAll($this->restoreDb, 'SELECT name FROM mb_test_users ORDER BY id');
         $names = \array_column($rows, 'name');
 
         $this->assertSame(['Alice', 'Bob', 'Charlie'], $names);
 
         \unlink($artifact->localPath);
-    }
-
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
-
-    /**
-     * Load key=value pairs from the project-root .env file.
-     *
-     * @return array<string, string>
-     */
-    private function loadEnv(): array
-    {
-        $envFile = \dirname(__DIR__, 2) . '/.env';
-        if (!\is_readable($envFile)) {
-            return [];
-        }
-
-        $result = [];
-        $lines  = \file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        if ($lines === false) {
-            return [];
-        }
-
-        foreach ($lines as $line) {
-            $line = \trim($line);
-            if ($line === '' || $line[0] === '#') {
-                continue;
-            }
-            [$key, $val] = \explode('=', $line, 2) + ['', ''];
-            $result[\trim($key)] = \trim($val);
-        }
-
-        return $result;
     }
 
     private function getPdo(string $database): \PDO
